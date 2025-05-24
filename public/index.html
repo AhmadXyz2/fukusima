@@ -4,40 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Awesome API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 id="api-title">Loading...</h1>
-            <p id="api-description"></p>
+        <header class="hero">
+            <div class="hero-content">
+                <h1 id="api-title">Loading...</h1>
+                <p id="api-description" class="subtitle"></p>
+                <div class="version-badge" id="api-version">v1.0.0</div>
+            </div>
+            <div class="hero-illustration">
+                <img src="https://illustrations.popsy.co/amber/api.svg" alt="API Illustration">
+            </div>
         </header>
         
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="documentation">Documentation</button>
+            <button class="tab-btn" data-tab="try-it">Try It Out</button>
+            <button class="tab-btn" data-tab="examples">Examples</button>
+        </div>
+        
         <main>
-            <section class="endpoints">
-                <h2>Available Endpoints</h2>
-                <div id="endpoints-list" class="cards-container">
-                    <!-- Endpoints will be loaded here -->
-                </div>
-            </section>
-            
-            <section class="try-it">
-                <h2>Try It Out</h2>
-                <div class="try-container">
-                    <select id="endpoint-select">
-                        <option value="">Select an endpoint</option>
-                    </select>
-                    <div id="params-container"></div>
-                    <button id="try-button">Send Request</button>
-                    <div class="response-container">
-                        <h3>Response</h3>
-                        <pre id="response-output"></pre>
+            <section class="tab-content active" id="documentation">
+                <div class="endpoints">
+                    <h2>Available Endpoints</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="endpoint-search" placeholder="Search endpoints...">
+                    </div>
+                    <div id="endpoints-list" class="cards-container">
+                        <!-- Endpoints will be loaded here -->
                     </div>
                 </div>
             </section>
+            
+            <section class="tab-content" id="try-it">
+                <div class="try-container">
+                    <div class="try-header">
+                        <h2>API Playground</h2>
+                        <div class="environment-selector">
+                            <span>Environment:</span>
+                            <select id="environment-select">
+                                <option value="production">Production</option>
+                                <option value="staging">Staging</option>
+                                <option value="development">Development</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="request-controls">
+                        <select id="endpoint-select" class="endpoint-select">
+                            <option value="">Select an endpoint</option>
+                        </select>
+                        <button id="try-button" class="send-btn">
+                            <i class="fas fa-paper-plane"></i> Send Request
+                        </button>
+                    </div>
+                    
+                    <div class="request-details">
+                        <div class="request-method" id="request-method">GET</div>
+                        <div class="request-url" id="request-url">https://api.example.com/v1/</div>
+                    </div>
+                    
+                    <div class="request-sections">
+                        <div class="request-section">
+                            <div class="section-header">
+                                <h3>Parameters</h3>
+                                <div class="section-tabs">
+                                    <button class="param-tab active" data-tab="query">Query</button>
+                                    <button class="param-tab" data-tab="path">Path</button>
+                                    <button class="param-tab" data-tab="headers">Headers</button>
+                                    <button class="param-tab" data-tab="body">Body</button>
+                                </div>
+                            </div>
+                            <div id="params-container" class="params-content active" data-content="query"></div>
+                            <div id="path-params-container" class="params-content" data-content="path"></div>
+                            <div id="header-params-container" class="params-content" data-content="headers"></div>
+                            <div id="body-params-container" class="params-content" data-content="body">
+                                <div class="body-editor">
+                                    <select id="body-type">
+                                        <option value="json">JSON</option>
+                                        <option value="form-data">Form Data</option>
+                                        <option value="raw">Raw</option>
+                                    </select>
+                                    <textarea id="body-content" placeholder='{"key": "value"}'></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="response-section">
+                            <div class="section-header">
+                                <h3>Response</h3>
+                                <div class="response-info">
+                                    <span class="response-status" id="response-status">Status: --</span>
+                                    <span class="response-time" id="response-time">Time: --</span>
+                                </div>
+                            </div>
+                            <div class="response-tabs">
+                                <button class="response-tab active" data-tab="body">Body</button>
+                                <button class="response-tab" data-tab="headers">Headers</button>
+                                <button class="response-tab" data-tab="cookies">Cookies</button>
+                            </div>
+                            <div class="response-content">
+                                <pre id="response-output"><div class="placeholder">Response will appear here</div></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="tab-content" id="examples">
+                <div class="examples-container">
+                    <h2>Code Examples</h2>
+                    <div class="code-tabs">
+                        <button class="code-tab active" data-language="javascript">JavaScript</button>
+                        <button class="code-tab" data-language="python">Python</button>
+                        <button class="code-tab" data-language="curl">cURL</button>
+                        <button class="code-tab" data-language="php">PHP</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code-example" class="language-javascript"><code class="example-code">// Select an endpoint to see code examples</code></pre>
+                    </div>
+                    <button class="copy-btn" id="copy-code">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                </div>
+            </section>
         </main>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="api-info">
+                    <h3>Fukushima UI</h3>
+                    <p>Documentation powered Fukushima</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </footer>
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="/script.js"></script>
 </body>
 </html>
