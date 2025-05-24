@@ -11,6 +11,15 @@
       "params": {
         "text": "Text to convert"
       }
-    }
+    },
+    {
+  "name": "Pinterest Image Search",
+  "desc": "Search and retrieve images from Pinterest based on a keyword",
+  "path": "/search/pinterest?q=",
+  "status": "ready",
+  "params": {
+    "q": "Keyword to search images"
+  }
+}
   ]
 }

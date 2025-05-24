@@ -19,6 +19,8 @@ app.get('/api/info', (req, res) => {
 
 // Import other API routes
 app.use('/tools/tobase64', require('./tools/tobase64'));
+app.use('/search/pinterest', require('./search/pinterest'));
+
 
 // Catch-all route for API documentation
 app.get('*', (req, res) => {
