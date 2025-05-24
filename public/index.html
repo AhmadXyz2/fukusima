@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome API</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="api-title">Loading...</h1>
+            <p id="api-description"></p>
+        </header>
+        
+        <main>
+            <section class="endpoints">
+                <h2>Available Endpoints</h2>
+                <div id="endpoints-list" class="cards-container">
+                    <!-- Endpoints will be loaded here -->
+                </div>
+            </section>
+            
+            <section class="try-it">
+                <h2>Try It Out</h2>
+                <div class="try-container">
+                    <select id="endpoint-select">
+                        <option value="">Select an endpoint</option>
+                    </select>
+                    <div id="params-container"></div>
+                    <button id="try-button">Send Request</button>
+                    <div class="response-container">
+                        <h3>Response</h3>
+                        <pre id="response-output"></pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="/script.js"></script>
+</body>
+</html>
