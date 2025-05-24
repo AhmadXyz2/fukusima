@@ -1,687 +1,400 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // API Configuration
-    const config = {
-        apiBaseUrl: window.location.origin,
-        environments: {
-            production: window.location.origin,
-            staging: window.location.origin.replace('production', 'staging'),
-            development: 'http://localhost:3000'
-        },
-        defaultHeaders: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    };
-
-    // State management
-    let state = {
-        currentEnvironment: 'production',
-        currentEndpoint: null,
-        requestHistory: [],
-        authToken: null
-    };
-
     // DOM Elements
-    const elements = {
-        apiTitle: document.getElementById('api-title'),
-        apiDescription: document.getElementById('api-description'),
-        apiVersion: document.getElementById('api-version'),
-        endpointsList: document.getElementById('endpoints-list'),
-        endpointSelect: document.getElementById('endpoint-select'),
-        paramsContainer: document.getElementById('params-container'),
-        pathParamsContainer: document.getElementById('path-params-container'),
-        headerParamsContainer: document.getElementById('header-params-container'),
-        bodyParamsContainer: document.getElementById('body-params-container'),
-        tryButton: document.getElementById('try-button'),
-        responseOutput: document.getElementById('response-output'),
-        responseStatus: document.getElementById('response-status'),
-        responseTime: document.getElementById('response-time'),
-        requestMethod: document.getElementById('request-method'),
-        requestUrl: document.getElementById('request-url'),
-        environmentSelect: document.getElementById('environment-select'),
-        bodyContent: document.getElementById('body-content'),
-        bodyType: document.getElementById('body-type'),
-        codeExample: document.getElementById('code-example'),
-        copyCodeBtn: document.getElementById('copy-code'),
-        endpointSearch: document.getElementById('endpoint-search')
-    };
+    const themeToggle = document.getElementById('theme-toggle');
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.section');
+    const currentSectionTitle = document.getElementById('current-section');
+    const sectionDescription = document.getElementById('section-description');
+    const endpointCount = document.getElementById('endpoint-count');
+    const endpointsContainer = document.getElementById('endpoints-container');
+    const activityFeed = document.getElementById('activity-feed');
+    const endpointSearch = document.getElementById('endpoint-search');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const httpMethod = document.getElementById('http-method');
+    const endpointPath = document.getElementById('endpoint-path');
+    const sendRequestBtn = document.getElementById('send-request');
+    const paramTabs = document.querySelectorAll('.param-tab');
+    const paramsContents = document.querySelectorAll('.params-content');
+    const responseTabs = document.querySelectorAll('.response-tab');
+    const responseContents = document.querySelectorAll('.response-content pre');
+    const responsePreview = document.getElementById('response-preview');
+    const responseRaw = document.getElementById('response-raw');
+    const responseHeaders = document.getElementById('response-headers');
+    const responseStatus = document.getElementById('response-status');
+    const queryParamsContainer = document.getElementById('query-params');
+    const headersParamsContainer = document.getElementById('headers-params');
+    const requestBody = document.getElementById('request-body');
 
-    // Initialize the application
-    init();
+    // State
+    let apiEndpoints = [];
+    let currentEndpoint = null;
+    let activeParamsTab = 'query';
+    let activeResponseTab = 'preview';
 
-    function init() {
-        loadApiInfo();
-        setupEventListeners();
-        setupTabs();
-        setupParamTabs();
-        setupResponseTabs();
-        setupCodeTabs();
+    // Initialize theme
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    themeToggle.checked = currentTheme === 'dark';
+
+    // Theme toggle
+    themeToggle.addEventListener('change', function() {
+        const newTheme = this.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // Navigation
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Update active nav item
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const section = this.dataset.section;
+            sections.forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`${section}-section`).classList.remove('hidden');
+            
+            // Update header
+            currentSectionTitle.textContent = this.querySelector('span').textContent;
+            
+            // Update description
+            updateSectionDescription(section);
+        });
+    });
+
+    function updateSectionDescription(section) {
+        const descriptions = {
+            dashboard: 'Overview of your API services and recent activity',
+            endpoints: 'Explore all available API endpoints',
+            documentation: 'Test API endpoints in real-time'
+        };
+        sectionDescription.textContent = descriptions[section] || '';
     }
 
-    function loadApiInfo() {
-        showLoadingState();
+    // Load API data
+    fetch('/api/info')
+        .then(response => response.json())
+        .then(data => {
+            apiEndpoints = data.endpoints;
+            
+            // Update stats
+            endpointCount.textContent = apiEndpoints.length;
+            
+            // Render endpoints
+            renderEndpoints(apiEndpoints);
+            populateEndpointSelector();
+            
+            // Add sample activity (in real app, this would come from server)
+            addActivityItem('GET', '/download/fb?url=https://facebook.com/video123');
+            addActivityItem('POST', '/tobase64', { text: 'Hello World' });
+        })
+        .catch(error => {
+            console.error('Error loading API data:', error);
+            endpointsContainer.innerHTML = `<div class="error-message">Failed to load endpoints. Please try again later.</div>`;
+        });
+
+    // Render endpoints
+    function renderEndpoints(endpoints) {
+        endpointsContainer.innerHTML = '';
         
-        fetch(`${config.apiBaseUrl}/api/info`)
-            .then(handleResponse)
-            .then(data => {
-                updateApiInfo(data);
-                populateEndpoints(data.endpoints);
-                setupEndpointSearch(data.endpoints);
-            })
-            .catch(handleError);
-    }
-
-    function updateApiInfo(data) {
-        elements.apiTitle.textContent = data.name || 'API Documentation';
-        elements.apiDescription.textContent = data.description || '';
-        if (data.version) {
-            elements.apiVersion.textContent = `v${data.version}`;
+        if (endpoints.length === 0) {
+            endpointsContainer.innerHTML = `<div class="empty-state">No endpoints found matching your criteria.</div>`;
+            return;
         }
-    }
-
-    function populateEndpoints(endpoints) {
-        elements.endpointsList.innerHTML = '';
-        elements.endpointSelect.innerHTML = '<option value="">Select an endpoint</option>';
         
         endpoints.forEach(endpoint => {
-            createEndpointCard(endpoint);
-            createEndpointOption(endpoint);
-        });
-    }
-
-    function createEndpointCard(endpoint) {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.method = endpoint.method.toLowerCase();
-        card.dataset.path = endpoint.path;
-        
-        card.innerHTML = `
-            <h3>
-                <span class="method ${endpoint.method.toLowerCase()}">${endpoint.method}</span>
-                ${endpoint.name}
-            </h3>
-            <p>${endpoint.description || endpoint.desc || 'No description available'}</p>
-            <div class="path">${endpoint.path}</div>
-            ${endpoint.status ? `<span class="status ${endpoint.status}">${endpoint.status}</span>` : ''}
-            ${endpoint.authRequired ? '<span class="auth-badge"><i class="fas fa-lock"></i> Auth Required</span>' : ''}
-        `;
-        
-        // Add click event to pre-select in dropdown
-        card.addEventListener('click', () => {
-            elements.endpointSelect.value = endpoint.path;
-            elements.endpointSelect.dispatchEvent(new Event('change'));
-            document.querySelector('.tab-btn[data-tab="try-it"]').click();
-        });
-        
-        elements.endpointsList.appendChild(card);
-    }
-
-    function createEndpointOption(endpoint) {
-        const option = document.createElement('option');
-        option.value = endpoint.path;
-        option.textContent = `${endpoint.method} ${endpoint.name} (${endpoint.path})`;
-        option.dataset.endpoint = JSON.stringify(endpoint);
-        elements.endpointSelect.appendChild(option);
-    }
-
-    function setupEndpointSearch(endpoints) {
-        elements.endpointSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = elements.endpointsList.querySelectorAll('.card');
+            const endpointCard = document.createElement('div');
+            endpointCard.className = 'endpoint-card';
             
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-            });
-        });
-    }
-
-    function setupEventListeners() {
-        // Endpoint selection
-        elements.endpointSelect.addEventListener('change', handleEndpointSelection);
-        
-        // Try it out button
-        elements.tryButton.addEventListener('click', sendRequest);
-        
-        // Environment change
-        elements.environmentSelect.addEventListener('change', (e) => {
-            state.currentEnvironment = e.target.value;
-            updateRequestUrl();
-        });
-        
-        // Body type change
-        elements.bodyType.addEventListener('change', updateBodyInput);
-        
-        // Copy code button
-        elements.copyCodeBtn.addEventListener('click', copyCodeToClipboard);
-    }
-
-    function handleEndpointSelection() {
-        const selectedPath = this.value;
-        
-        if (!selectedPath) {
-            clearParams();
-            updateRequestUrl();
-            updateCodeExample();
-            return;
-        }
-        
-        const selectedOption = this.options[this.selectedIndex];
-        const endpoint = JSON.parse(selectedOption.dataset.endpoint);
-        state.currentEndpoint = endpoint;
-        
-        // Update UI based on selected endpoint
-        elements.requestMethod.textContent = endpoint.method;
-        elements.requestMethod.className = `request-method ${endpoint.method.toLowerCase()}`;
-        
-        // Clear previous params
-        clearParams();
-        
-        // Populate parameters
-        if (endpoint.parameters) {
-            populateParameters(endpoint.parameters);
-        }
-        
-        updateRequestUrl();
-        updateCodeExample();
-    }
-
-    function populateParameters(parameters) {
-        // Path parameters
-        if (parameters.path) {
-            populateParamType(parameters.path, elements.pathParamsContainer, 'path');
-        }
-        
-        // Query parameters
-        if (parameters.query) {
-            populateParamType(parameters.query, elements.paramsContainer, 'query');
-        }
-        
-        // Header parameters
-        if (parameters.header) {
-            populateParamType(parameters.header, elements.headerParamsContainer, 'header');
+            const statusClass = `status-${endpoint.status.toLowerCase()}`;
             
-            // Special handling for authorization
-            const authParam = parameters.header.find(p => p.name.toLowerCase() === 'authorization');
-            if (authParam && !state.authToken) {
-                showAuthModal();
-            }
-        }
-        
-        // Body parameters
-        if (parameters.body) {
-            elements.bodyType.value = 'json';
-            updateBodyInput();
-        }
-    }
-
-    function populateParamType(params, container, type) {
-        container.innerHTML = '';
-        
-        params.forEach(param => {
-            const paramDiv = document.createElement('div');
-            paramDiv.className = 'param-input';
-            
-            const inputId = `param-${type}-${param.name}`;
-            let inputHtml = '';
-            
-            if (param.enum) {
-                // Create dropdown for enum values
-                inputHtml = `
-                    <select id="${inputId}" ${param.required ? 'required' : ''}>
-                        <option value="">Select ${param.name}</option>
-                        ${param.enum.map(val => `<option value="${val}">${val}</option>`).join('')}
-                    </select>
-                `;
-            } else {
-                // Create text input
-                const inputType = param.type === 'integer' ? 'number' : 'text';
-                inputHtml = `
-                    <input type="${inputType}" id="${inputId}" 
-                           placeholder="${param.description || param.name}" 
-                           ${param.required ? 'required' : ''}>
-                `;
-            }
-            
-            paramDiv.innerHTML = `
-                <label for="${inputId}">
-                    ${param.name}
-                    ${param.required ? '<span class="required">*</span>' : ''}
-                    <small>${param.description || ''}</small>
-                </label>
-                ${inputHtml}
+            endpointCard.innerHTML = `
+                <div class="endpoint-header">
+                    <h3 class="endpoint-name">${endpoint.name}</h3>
+                    <span class="endpoint-status ${statusClass}">${endpoint.status}</span>
+                </div>
+                <div class="endpoint-body">
+                    <p class="endpoint-description">${endpoint.desc}</p>
+                    <code class="endpoint-path">${endpoint.path}</code>
+                    ${endpoint.params ? `
+                    <div class="endpoint-params">
+                        <h4>Parameters:</h4>
+                        ${Object.entries(endpoint.params).map(([name, desc]) => `
+                            <div class="param-item">
+                                <span class="param-name">${name}:</span>
+                                <span class="param-desc">${desc}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="endpoint-footer">
+                    <button class="try-btn" data-path="${endpoint.path.split('?')[0]}">
+                        <i class="fas fa-flask"></i> Try it out
+                    </button>
+                </div>
             `;
             
-            container.appendChild(paramDiv);
+            endpointsContainer.appendChild(endpointCard);
+        });
+        
+        // Add event listeners to try buttons
+        document.querySelectorAll('.try-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Switch to documentation section
+                navItems.forEach(nav => nav.classList.remove('active'));
+                document.querySelector('.nav-item[data-section="documentation"]').classList.add('active');
+                sections.forEach(sec => sec.classList.add('hidden'));
+                document.getElementById('documentation-section').classList.remove('hidden');
+                currentSectionTitle.textContent = 'Documentation';
+                sectionDescription.textContent = 'Test API endpoints in real-time';
+                
+                // Set the endpoint path
+                const path = this.dataset.path;
+                endpointPath.value = path;
+                currentEndpoint = apiEndpoints.find(ep => ep.path.startsWith(path));
+                
+                // Update params
+                updateParamsUI();
+            });
         });
     }
 
-    function updateBodyInput() {
-        const bodyType = elements.bodyType.value;
-        const bodyParams = state.currentEndpoint?.parameters?.body || [];
-        
-        if (bodyType === 'json' && bodyParams.length > 0) {
-            // Generate example JSON based on body parameters
-            const exampleBody = {};
-            bodyParams.forEach(param => {
-                exampleBody[param.name] = param.example || 
-                                         (param.type === 'string' ? 'string' : 
-                                          param.type === 'integer' ? 0 : null);
-            });
-            
-            elements.bodyContent.value = JSON.stringify(exampleBody, null, 2);
-        } else if (bodyType === 'form-data') {
-            // Generate form data example
-            elements.bodyContent.value = bodyParams.map(param => 
-                `${param.name}=${param.example || ''}`
-            ).join('\n');
-        } else {
-            elements.bodyContent.value = '';
-        }
+    // Populate endpoint selector
+    function populateEndpointSelector() {
+        // This is handled by the endpoint cards' try buttons in this version
     }
 
-    function sendRequest() {
-        if (!state.currentEndpoint) {
-            showAlert('Please select an endpoint first', 'error');
+    // Filter endpoints
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            let filteredEndpoints = apiEndpoints;
+            
+            if (filter !== 'all') {
+                filteredEndpoints = apiEndpoints.filter(ep => 
+                    filter === 'ready' ? ep.status === 'Ready' :
+                    filter === 'beta' ? ep.status === 'Beta' :
+                    ep.status === 'Maintenance'
+                );
+            }
+            
+            renderEndpoints(filteredEndpoints);
+        });
+    });
+
+    // Search endpoints
+    endpointSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredEndpoints = apiEndpoints.filter(ep => 
+            ep.name.toLowerCase().includes(searchTerm) || 
+            ep.desc.toLowerCase().includes(searchTerm) ||
+            ep.path.toLowerCase().includes(searchTerm)
+        );
+        renderEndpoints(filteredEndpoints);
+    });
+
+    // Params tabs
+    paramTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            paramTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            activeParamsTab = this.dataset.tab;
+            paramsContents.forEach(content => content.classList.add('hidden'));
+            document.getElementById(`${activeParamsTab}-params`).classList.remove('hidden');
+        });
+    });
+
+    // Response tabs
+    responseTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            responseTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            activeResponseTab = this.dataset.tab;
+            responseContents.forEach(content => content.classList.add('hidden'));
+            
+            if (activeResponseTab === 'preview') {
+                responsePreview.classList.remove('hidden');
+            } else if (activeResponseTab === 'raw') {
+                responseRaw.classList.remove('hidden');
+            } else {
+                responseHeaders.classList.remove('hidden');
+            }
+        });
+    });
+
+    // Update params UI based on selected endpoint
+    function updateParamsUI() {
+        queryParamsContainer.innerHTML = '';
+        headersParamsContainer.innerHTML = '';
+        
+        if (currentEndpoint && currentEndpoint.params) {
+            Object.entries(currentEndpoint.params).forEach(([param, desc]) => {
+                const paramDiv = document.createElement('div');
+                paramDiv.className = 'param-item';
+                paramDiv.innerHTML = `
+                    <label for="param-${param}">${param}</label>
+                    <input type="text" id="param-${param}" placeholder="${desc}" class="param-input">
+                `;
+                queryParamsContainer.appendChild(paramDiv);
+            });
+        }
+        
+        // Add default headers
+        const defaultHeaders = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        };
+        
+        Object.entries(defaultHeaders).forEach(([header, value]) => {
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'param-item';
+            headerDiv.innerHTML = `
+                <label for="header-${header.toLowerCase()}">${header}</label>
+                <input type="text" id="header-${header.toLowerCase()}" value="${value}" class="param-input">
+            `;
+            headersParamsContainer.appendChild(headerDiv);
+        });
+    }
+
+    // Send API request
+    sendRequestBtn.addEventListener('click', function() {
+        if (!endpointPath.value) {
+            showResponseError('Please enter an endpoint path');
             return;
         }
         
-        const { method, path } = state.currentEndpoint;
-        let url = buildRequestUrl();
-        const options = {
-            method,
-            headers: { ...config.defaultHeaders }
-        };
+        const method = httpMethod.value;
+        const url = endpointPath.value;
+        const params = {};
         
-        // Add headers
-        const headerInputs = elements.headerParamsContainer.querySelectorAll('input, select');
-        headerInputs.forEach(input => {
-            const headerName = input.id.replace('param-header-', '');
-            if (input.value) {
-                options.headers[headerName] = input.value;
-            }
-        });
-        
-        // Add auth token if available
-        if (state.authToken) {
-            options.headers['Authorization'] = `Bearer ${state.authToken}`;
+        // Get query params
+        if (activeParamsTab === 'query' && currentEndpoint?.params) {
+            Object.keys(currentEndpoint.params).forEach(param => {
+                const value = document.getElementById(`param-${param}`)?.value;
+                if (value) params[param] = value;
+            });
         }
         
-        // Handle request body
-        if (['POST', 'PUT', 'PATCH'].includes(method)) {
-            const bodyType = elements.bodyType.value;
-            const bodyContent = elements.bodyContent.value;
-            
-            if (bodyType === 'json' && bodyContent) {
-                try {
-                    options.body = JSON.stringify(JSON.parse(bodyContent));
-                } catch (e) {
-                    showAlert('Invalid JSON format', 'error');
-                    return;
-                }
-            } else if (bodyType === 'form-data' && bodyContent) {
-                const formData = new FormData();
-                bodyContent.split('\n').forEach(line => {
-                    const [key, value] = line.split('=');
-                    if (key && value) formData.append(key.trim(), value.trim());
-                });
-                options.body = formData;
-                delete options.headers['Content-Type']; // Let browser set content-type with boundary
-            } else if (bodyType === 'raw' && bodyContent) {
-                options.body = bodyContent;
+        // Get headers
+        const headers = {};
+        if (activeParamsTab === 'headers') {
+            document.querySelectorAll('#headers-params .param-input').forEach(input => {
+                const headerName = input.id.replace('header-', '');
+                headers[headerName] = input.value;
+            });
+        }
+        
+        // Prepare request options
+        const options = {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                ...headers
             }
+        };
+        
+        // Add body if needed
+if (['POST', 'PUT', 'PATCH'].includes(method)) {
+    try {
+        options.body = activeParamsTab === 'body' ? 
+            requestBody.value : 
+            JSON.stringify(params);
+    } catch (e) {
+        showResponseError('Invalid JSON body');
+        return;
+    }
+}
+        
+        // Build URL with query params for GET requests
+        let requestUrl = url;
+        if (method === 'GET' && Object.keys(params).length > 0) {
+            const queryString = new URLSearchParams(params).toString();
+            requestUrl += `?${queryString}`;
         }
         
         // Show loading state
-        elements.responseOutput.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Sending request...</div>';
-        elements.tryButton.disabled = true;
-        elements.tryButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        responseStatus.textContent = 'Sending...';
+        responseStatus.style.color = '';
         
-        // Start request timer
-        const startTime = performance.now();
-        
-        fetch(url, options)
+        // Send request
+        fetch(requestUrl, options)
             .then(async response => {
-                const responseTime = performance.now() - startTime;
-                const responseData = await parseResponse(response);
+                const data = await response.json();
+                const responseHeaders = {};
                 
-                // Update UI with response
-                updateResponseUI(response, responseData, responseTime);
-                
-                // Add to history
-                addToHistory({
-                    method,
-                    url,
-                    request: options,
-                    response: responseData,
-                    status: response.status,
-                    time: responseTime
+                // Convert headers to object
+                response.headers.forEach((value, key) => {
+                    responseHeaders[key] = value;
                 });
+                
+                // Update UI
+                responseStatus.textContent = `${response.status} ${response.statusText}`;
+                responseStatus.style.color = response.ok ? '#4cc9f0' : '#f72585';
+                
+                responsePreview.textContent = JSON.stringify(data, null, 2);
+                responseRaw.textContent = JSON.stringify(data, null, 2);
+                responseHeaders.textContent = JSON.stringify(responseHeaders, null, 2);
+                
+                // Add to activity feed
+                addActivityItem(method, url, params);
             })
             .catch(error => {
-                const responseTime = performance.now() - startTime;
-                elements.responseOutput.textContent = `Error: ${error.message}`;
-                elements.responseStatus.textContent = `Status: Error`;
-                elements.responseStatus.className = 'response-status error';
-                elements.responseTime.textContent = `Time: ${Math.round(responseTime)}ms`;
-            })
-            .finally(() => {
-                elements.tryButton.disabled = false;
-                elements.tryButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Request';
+                showResponseError(error.message);
             });
+    });
+
+    function showResponseError(message) {
+        responseStatus.textContent = `Error: ${message}`;
+        responseStatus.style.color = '#f72585';
+        responsePreview.textContent = `{
+    "error": "${message}"
+}`;
+        responseRaw.textContent = `{
+    "error": "${message}"
+}`;
+        responseHeaders.textContent = '{}';
     }
 
-    function buildRequestUrl() {
-        let url = `${config.environments[state.currentEnvironment]}${state.currentEndpoint.path}`;
+    // Add activity item
+    function addActivityItem(method, path, data) {
+        const activityItem = document.createElement('div');
+        activityItem.className = 'activity-item';
         
-        // Replace path parameters
-        const pathInputs = elements.pathParamsContainer.querySelectorAll('input, select');
-        pathInputs.forEach(input => {
-            const paramName = input.id.replace('param-path-', '');
-            if (input.value) {
-                url = url.replace(`:${paramName}`, input.value);
-            } else if (state.currentEndpoint.parameters.path.find(p => p.name === paramName && p.required)) {
-                showAlert(`Path parameter ${paramName} is required`, 'error');
-                throw new Error('Missing required path parameter');
-            }
-        });
+        const methodClass = method.toLowerCase() === 'get' ? 'get-method' : 'post-method';
         
-        // Add query parameters
-        const queryParams = [];
-        const queryInputs = elements.paramsContainer.querySelectorAll('input, select');
-        queryInputs.forEach(input => {
-            const paramName = input.id.replace('param-query-', '');
-            if (input.value) {
-                queryParams.push(`${paramName}=${encodeURIComponent(input.value)}`);
-            }
-        });
-        
-        if (queryParams.length) {
-            url += `?${queryParams.join('&')}`;
-        }
-        
-        return url;
-    }
-
-    async function parseResponse(response) {
-        const contentType = response.headers.get('content-type');
-        
-        if (contentType && contentType.includes('application/json')) {
-            return await response.json();
-        } else if (contentType && contentType.includes('text/')) {
-            return await response.text();
-        } else {
-            return await response.blob();
-        }
-    }
-
-    function updateResponseUI(response, data, responseTime) {
-        // Format the response data
-        let formattedResponse;
-        if (typeof data === 'object') {
-            formattedResponse = JSON.stringify(data, null, 2);
-        } else {
-            formattedResponse = data;
-        }
-        
-        // Update response output
-        elements.responseOutput.textContent = formattedResponse;
-        
-        // Highlight syntax if JSON
-        if (typeof data === 'object') {
-            hljs.highlightElement(elements.responseOutput);
-        }
-        
-        // Update status and time
-        elements.responseStatus.textContent = `Status: ${response.status} ${response.statusText}`;
-        elements.responseStatus.className = `response-status ${response.ok ? 'success' : 'error'}`;
-        elements.responseTime.textContent = `Time: ${Math.round(responseTime)}ms`;
-    }
-
-    function updateRequestUrl() {
-        if (!state.currentEndpoint) {
-            elements.requestUrl.textContent = `${config.environments[state.currentEnvironment]}/api`;
-            return;
-        }
-        
-        let url = `${config.environments[state.currentEnvironment]}${state.currentEndpoint.path}`;
-        
-        // Replace path parameters with sample values
-        if (state.currentEndpoint.parameters?.path) {
-            state.currentEndpoint.parameters.path.forEach(param => {
-                url = url.replace(`:${param.name}`, param.example || `:${param.name}`);
-            });
-        }
-        
-        // Add sample query parameters
-        if (state.currentEndpoint.parameters?.query) {
-            const sampleParams = state.currentEndpoint.parameters.query
-                .filter(param => param.example)
-                .map(param => `${param.name}=${param.example}`);
-            
-            if (sampleParams.length) {
-                url += `?${sampleParams.join('&')}`;
-            }
-        }
-        
-        elements.requestUrl.textContent = url;
-    }
-
-    function updateCodeExample() {
-        if (!state.currentEndpoint) {
-            elements.codeExample.textContent = '// Select an endpoint to see code examples';
-            return;
-        }
-        
-        const { method, path } = state.currentEndpoint;
-        const baseUrl = config.environments[state.currentEnvironment];
-        const fullUrl = `${baseUrl}${path}`;
-        
-        const examples = {
-            javascript: `// Using fetch API
-fetch('${fullUrl}', {
-    method: '${method}',
-    headers: {
-        'Content-Type': 'application/json',
-        ${state.authToken ? "'Authorization': 'Bearer YOUR_TOKEN'," : ""}
-    },
-    body: ${method === 'GET' ? 'undefined' : JSON.stringify({ key: 'value' }, null, 2)}
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error('Error:', error));`,
-            
-            python: `# Using requests library
-import requests
-
-url = '${fullUrl}'
-headers = {
-    'Content-Type': 'application/json'${state.authToken ? ",\n    'Authorization': 'Bearer YOUR_TOKEN'" : ""}
-}
-
-response = requests.${method.toLowerCase()}(
-    url,
-    headers=headers,
-    ${method === 'GET' ? '' : "json={'key': 'value'}"}
-)
-
-print(response.json())`,
-            
-            curl: `# Using cURL
-curl -X ${method} \\
-     '${fullUrl}' \\
-     -H 'Content-Type: application/json' \\
-     ${state.authToken ? "-H 'Authorization: Bearer YOUR_TOKEN' \\" : ""}
-     ${method === 'GET' ? '' : "-d '{\"key\": \"value\"}'"}`,
-            
-            php: `<?php
-// Using PHP cURL
-$ch = curl_init('${fullUrl}');
-
-$headers = [
-    'Content-Type: application/json'${state.authToken ? ",\n    'Authorization: Bearer YOUR_TOKEN'" : ""}
-];
-
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, '${method}');
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-${method === 'GET' ? '' : "curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['key' => 'value']));"}
-
-$response = curl_exec($ch);
-curl_close($ch);
-
-echo $response;
-?>`
-        };
- // Update the active code example
-        const activeTab = document.querySelector('.code-tab.active');
-        if (activeTab) {
-            const language = activeTab.dataset.language;
-            elements.codeExample.textContent = examples[language];
-            elements.codeExample.className = `language-${language}`;
-            hljs.highlightElement(elements.codeExample);
-        }
-    }
-
-    function addToHistory(request) {
-        state.requestHistory.unshift(request);
-        if (state.requestHistory.length > 10) {
-            state.requestHistory.pop();
-        }
-        // TODO: Update history UI if implemented
-    }
-
-    function clearParams() {
-        elements.paramsContainer.innerHTML = '';
-        elements.pathParamsContainer.innerHTML = '';
-        elements.headerParamsContainer.innerHTML = '';
-        elements.bodyContent.value = '';
-    }
-
-    function showLoadingState() {
-        elements.apiTitle.textContent = 'Loading API...';
-        elements.endpointsList.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>';
-    }
-
-    function showAlert(message, type = 'info') {
-        const alert = document.createElement('div');
-        alert.className = `alert ${type}`;
-        alert.innerHTML = `
-            <i class="fas fa-${type === 'error' ? 'times-circle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-            ${message}
+        activityItem.innerHTML = `
+            <div class="activity-icon">
+                <i class="fas fa-${method.toLowerCase() === 'get' ? 'download' : 'upload'}"></i>
+            </div>
+            <div class="activity-content">
+                <div>
+                    <span class="activity-method ${methodClass}">${method}</span>
+                    <span class="activity-path">${path}</span>
+                </div>
+                <div class="activity-time">${new Date().toLocaleString()}</div>
+            </div>
         `;
         
-        document.body.appendChild(alert);
+        // Add to top of activity feed
+        if (activityFeed.firstChild) {
+            activityFeed.insertBefore(activityItem, activityFeed.firstChild);
+        } else {
+            activityFeed.appendChild(activityItem);
+        }
         
-        setTimeout(() => {
-            alert.classList.add('fade-out');
-            setTimeout(() => alert.remove(), 500);
-        }, 3000);
-    }
-
-    function showAuthModal() {
-        // TODO: Implement auth modal
-        const token = prompt('Please enter your API token:');
-        if (token) {
-            state.authToken = token;
+        // Limit to 10 items
+        if (activityFeed.children.length > 10) {
+            activityFeed.removeChild(activityFeed.lastChild);
         }
     }
 
-    function copyCodeToClipboard() {
-        const code = elements.codeExample.textContent;
-        navigator.clipboard.writeText(code)
-            .then(() => {
-                const originalText = elements.copyCodeBtn.innerHTML;
-                elements.copyCodeBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => {
-                    elements.copyCodeBtn.innerHTML = originalText;
-                }, 2000);
-            })
-            .catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-    }
-
-    function handleResponse(response) {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    }
-
-    function handleError(error) {
-        console.error('Error:', error);
-        elements.apiTitle.textContent = 'Error loading API';
-        showAlert('Failed to load API documentation. Please try again later.', 'error');
-    }
-
-    // Tab functionality
-    function setupTabs() {
-        const tabs = document.querySelectorAll('.tab-btn');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.dataset.tab;
-                document.getElementById(tabId).classList.add('active');
-                
-                // Update code examples if switching to examples tab
-                if (tabId === 'examples') {
-                    updateCodeExample();
-                }
-            });
-        });
-    }
-
-    function setupParamTabs() {
-        const tabs = document.querySelectorAll('.param-tab');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all param tabs and contents
-                document.querySelectorAll('.param-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.params-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.dataset.tab;
-                document.querySelector(`.params-content[data-content="${tabId}"]`).classList.add('active');
-            });
-        });
-    }
-
-    function setupResponseTabs() {
-        const tabs = document.querySelectorAll('.response-tab');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all response tabs
-                document.querySelectorAll('.response-tab').forEach(t => t.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                // TODO: Implement response tab content switching
-            });
-        });
-    }
-
-    function setupCodeTabs() {
-        const tabs = document.querySelectorAll('.code-tab');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all code tabs
-                document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                updateCodeExample();
-            });
-        });
-    }
+    // Initialize
+    updateSectionDescription('dashboard');
 });

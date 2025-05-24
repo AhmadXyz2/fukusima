@@ -3,154 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome API</title>
+    <title>Ultimate API Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="hero">
-            <div class="hero-content">
-                <h1 id="api-title">Loading...</h1>
-                <p id="api-description" class="subtitle"></p>
-                <div class="version-badge" id="api-version">v1.0.0</div>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <i class="fas fa-rocket logo-icon"></i>
+                <h1 class="logo-text">API<span>NEXUS</span></h1>
             </div>
-            <div class="hero-illustration">
-                <img src="https://illustrations.popsy.co/amber/api.svg" alt="API Illustration">
+            <nav class="nav-menu">
+                <div class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-section="endpoints">
+                    <i class="fas fa-plug"></i>
+                    <span>Endpoints</span>
+                </div>
+                <div class="nav-item" data-section="documentation">
+                    <i class="fas fa-book"></i>
+                    <span>Documentation</span>
+                </div>
+            </nav>
+            <div class="api-status">
+                <div class="status-indicator active"></div>
+                <span>API Online</span>
             </div>
-        </header>
-        
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="documentation">Documentation</button>
-            <button class="tab-btn" data-tab="try-it">Try It Out</button>
-            <button class="tab-btn" data-tab="examples">Examples</button>
-        </div>
-        
-        <main>
-            <section class="tab-content active" id="documentation">
-                <div class="endpoints">
-                    <h2>Available Endpoints</h2>
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="endpoint-search" placeholder="Search endpoints...">
-                    </div>
-                    <div id="endpoints-list" class="cards-container">
-                        <!-- Endpoints will be loaded here -->
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h2 id="current-section">Dashboard</h2>
+                    <p id="section-description">Overview of your API services</p>
+                </div>
+                <div class="user-controls">
+                    <div class="theme-switcher">
+                        <i class="fas fa-moon"></i>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <i class="fas fa-sun"></i>
                     </div>
                 </div>
-            </section>
-            
-            <section class="tab-content" id="try-it">
-                <div class="try-container">
-                    <div class="try-header">
-                        <h2>API Playground</h2>
-                        <div class="environment-selector">
-                            <span>Environment:</span>
-                            <select id="environment-select">
-                                <option value="production">Production</option>
-                                <option value="staging">Staging</option>
-                                <option value="development">Development</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="request-controls">
-                        <select id="endpoint-select" class="endpoint-select">
-                            <option value="">Select an endpoint</option>
-                        </select>
-                        <button id="try-button" class="send-btn">
-                            <i class="fas fa-paper-plane"></i> Send Request
-                        </button>
-                    </div>
-                    
-                    <div class="request-details">
-                        <div class="request-method" id="request-method">GET</div>
-                        <div class="request-url" id="request-url">https://api.example.com/v1/</div>
-                    </div>
-                    
-                    <div class="request-sections">
-                        <div class="request-section">
-                            <div class="section-header">
-                                <h3>Parameters</h3>
-                                <div class="section-tabs">
-                                    <button class="param-tab active" data-tab="query">Query</button>
-                                    <button class="param-tab" data-tab="path">Path</button>
-                                    <button class="param-tab" data-tab="headers">Headers</button>
-                                    <button class="param-tab" data-tab="body">Body</button>
-                                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Dashboard Section -->
+                <section class="section" id="dashboard-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-bolt"></i>
                             </div>
-                            <div id="params-container" class="params-content active" data-content="query"></div>
-                            <div id="path-params-container" class="params-content" data-content="path"></div>
-                            <div id="header-params-container" class="params-content" data-content="headers"></div>
-                            <div id="body-params-container" class="params-content" data-content="body">
-                                <div class="body-editor">
-                                    <select id="body-type">
-                                        <option value="json">JSON</option>
-                                        <option value="form-data">Form Data</option>
-                                        <option value="raw">Raw</option>
-                                    </select>
-                                    <textarea id="body-content" placeholder='{"key": "value"}'></textarea>
-                                </div>
+                            <div class="stat-info">
+                                <h3>Response Time</h3>
+                                <p class="stat-value" id="response-time">32ms</p>
                             </div>
                         </div>
-                        
-                        <div class="response-section">
-                            <div class="section-header">
-                                <h3>Response</h3>
-                                <div class="response-info">
-                                    <span class="response-status" id="response-status">Status: --</span>
-                                    <span class="response-time" id="response-time">Time: --</span>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Uptime</h3>
+                                <p class="stat-value" id="uptime">99.98%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Endpoints</h3>
+                                <p class="stat-value" id="endpoint-count">Loading...</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Errors</h3>
+                                <p class="stat-value" id="error-count">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h3 class="activity-title">
+                            <i class="fas fa-history"></i> Recent Activity
+                        </h3>
+                        <div class="activity-list" id="activity-feed">
+                            <!-- Activity items will be added here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Endpoints Section -->
+                <section class="section hidden" id="endpoints-section">
+                    <div class="endpoint-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="endpoint-search" placeholder="Search endpoints...">
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="ready">Ready</button>
+                            <button class="filter-btn" data-filter="beta">Beta</button>
+                            <button class="filter-btn" data-filter="down">Maintenance</button>
+                        </div>
+                    </div>
+
+                    <div class="endpoints-grid" id="endpoints-container">
+                        <!-- Endpoint cards will be added here -->
+                    </div>
+                </section>
+
+                <!-- API Tester Section -->
+                <section class="section hidden" id="documentation-section">
+                    <div class="api-tester">
+                        <div class="tester-header">
+                            <h3><i class="fas fa-flask"></i> API Playground</h3>
+                            <div class="request-method">
+                                <select id="http-method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="tester-url">
+                            <span class="base-url">https://fuku-rest.vercel.app</span>
+                            <input type="text" id="endpoint-path" placeholder="/endpoint/path">
+                            <button id="send-request">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+
+                        <div class="tester-params">
+                            <div class="params-tabs">
+                                <button class="param-tab active" data-tab="query">Query Params</button>
+                                <button class="param-tab" data-tab="headers">Headers</button>
+                                <button class="param-tab" data-tab="body">Request Body</button>
+                            </div>
+                            <div class="params-content" id="query-params">
+                                <!-- Query params will be added here -->
+                            </div>
+                            <div class="params-content hidden" id="headers-params">
+                                <!-- Headers will be added here -->
+                            </div>
+                            <div class="params-content hidden" id="body-params">
+                                <textarea id="request-body" placeholder="Raw JSON body"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="tester-response">
+                            <div class="response-header">
+                                <h4>Response</h4>
+                                <div class="response-status">
+                                    Status: <span id="response-status">Waiting...</span>
                                 </div>
                             </div>
                             <div class="response-tabs">
-                                <button class="response-tab active" data-tab="body">Body</button>
+                                <button class="response-tab active" data-tab="preview">Preview</button>
+                                <button class="response-tab" data-tab="raw">Raw</button>
                                 <button class="response-tab" data-tab="headers">Headers</button>
-                                <button class="response-tab" data-tab="cookies">Cookies</button>
                             </div>
                             <div class="response-content">
-                                <pre id="response-output"><div class="placeholder">Response will appear here</div></pre>
+                                <pre id="response-preview">{
+    "message": "Select an endpoint and click Send"
+}</pre>
+                                <pre class="hidden" id="response-raw"></pre>
+                                <pre class="hidden" id="response-headers"></pre>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            
-            <section class="tab-content" id="examples">
-                <div class="examples-container">
-                    <h2>Code Examples</h2>
-                    <div class="code-tabs">
-                        <button class="code-tab active" data-language="javascript">JavaScript</button>
-                        <button class="code-tab" data-language="python">Python</button>
-                        <button class="code-tab" data-language="curl">cURL</button>
-                        <button class="code-tab" data-language="php">PHP</button>
-                    </div>
-                    <div class="code-content">
-                        <pre id="code-example" class="language-javascript"><code class="example-code">// Select an endpoint to see code examples</code></pre>
-                    </div>
-                    <button class="copy-btn" id="copy-code">
-                        <i class="far fa-copy"></i> Copy
-                    </button>
-                </div>
-            </section>
-        </main>
-        
-        <footer>
-            <div class="footer-content">
-                <div class="api-info">
-                    <h3>Fukushima UI</h3>
-                    <p>Documentation powered Fukushima</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Contact Us</a>
-                </div>
+                </section>
             </div>
-        </footer>
+        </main>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
     <script src="/script.js"></script>
 </body>
 </html>
