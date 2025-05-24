@@ -12,11 +12,12 @@
         "text": "Text to convert"
       }
     },
-    {
+{
   "name": "Pinterest Image Search",
-  "desc": "Search and retrieve images from Pinterest based on a keyword",
+  "desc": "Search and retrieve a random image from Pinterest based on a keyword",
   "path": "/search/pinterest?q=",
   "status": "ready",
+  "creator": "fukushima",
   "params": {
     "q": "Keyword to search images"
   }
