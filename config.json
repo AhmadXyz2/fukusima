@@ -1,0 +1,16 @@
+{
+  "name": "FukuShima APIs",
+  "description": "A collection of useful API endpoints",
+  "version": "1.0.0",
+  "endpoints": [
+    {
+      "name": "To Base64",
+      "desc": "Convert text to Base64",
+      "path": "/tools/tobase64?text=",
+      "status": "ready",
+      "params": {
+        "text": "Text to convert"
+      }
+    }
+  ]
+}
