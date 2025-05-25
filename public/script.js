@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sections.forEach(sec => sec.classList.add('hidden'));
                 document.getElementById('documentation-section').classList.remove('hidden');
                 currentSectionTitle.textContent = 'Documentation';
-                sectionDescription.textContent = 'Test API endpoints in real-time';
+                sectionDescription.textContent = 'Tes API secara real time';
                 
                 // Set the endpoint path
                 const path = this.dataset.path;
