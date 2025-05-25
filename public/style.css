@@ -937,3 +937,61 @@ input:checked + .slider:before {
         max-width: 100%;
     }
 }
+
+/* Tombol Salin */
+.copy-btn {
+    background-color: var(--tertiary-bg);
+    color: var(--secondary-text);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
+}
+
+.copy-btn:hover {
+    background-color: var(--border-color);
+    color: var(--primary-text);
+}
+
+.copy-btn.copied {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.copy-btn.copied i::before {
+    content: "\f00c";
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.75rem;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
