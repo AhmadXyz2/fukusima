@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateSectionDescription(section) {
         const descriptions = {
-            dashboard: 'Overview of your API services and recent activity',
-            endpoints: 'Explore all available API endpoints',
-            documentation: 'Test API endpoints in real-time'
+            dashboard: 'Beta APIs Yang Akan Terus Dikembangkan.',
+            endpoints: 'Jelajahi API yang tersedia ',
+            documentation: 'Api Dengan Real-Time'
         };
         sectionDescription.textContent = descriptions[section] || '';
     }
