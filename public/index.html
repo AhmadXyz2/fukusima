@@ -134,6 +134,35 @@
       </div>
     </section>
 
+    <!-- Endpoints Section -->
+    <section class="section" id="endpoints-section">
+      <div class="endpoint-controls">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="endpoint-search" placeholder="Cari endpoint..." />
+        </div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="ready">Siap</button>
+          <button class="filter-btn" data-filter="beta">Beta</button>
+          <button class="filter-btn" data-filter="down">Maintenance</button>
+        </div>
+      </div>
+      <div class="endpoints-grid" id="endpoints-container">
+        <!-- Sample endpoint card -->
+        <div class="endpoint-card ready">
+          <div class="endpoint-header">
+            <div class="endpoint-name">Get Users</div>
+            <div class="endpoint-status status-ready">Ready</div>
+          </div>
+          <div class="endpoint-body">
+            <div class="endpoint-description">Mengambil daftar semua user dari database.</div>
+            <div class="endpoint-path">/api/users</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Tombol Aksi -->
     <div class="card" style="margin-top: 2rem;">
       <div class="card-body">
