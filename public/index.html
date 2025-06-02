@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fukushima UI</title>
-  <!-- Icon dan font -->
+  <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <!-- Style utama kamu -->
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -36,146 +35,127 @@
         <div class="status-indicator active"></div>
         <span>API Online</span>
       </div>
-    </aside>
-
-    <!-- Konten Utama -->
-    <main class="main-content">
-      <header class="content-header">
-        <div class="header-title">
-          <h2 id="current-section">Dashboard</h2>
-          <p id="section-description">Ringkasan layanan API Anda</p>
-        </div>
-        <div class="user-controls">
-          <div class="theme-switcher">
-            <i class="fas fa-moon"></i>
-            <label class="switch">
-              <input type="checkbox" id="theme-toggle" />
-              <span class="slider round"></span>
-            </label>
-            <i class="fas fa-sun"></i>
-          </div>
-        </div>
-      </header>
-
-      <div class="content-wrapper">
-        <!-- Dashboard -->
-        <section class="section" id="dashboard-section">
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon primary"><i class="fas fa-bolt"></i></div>
-              <div class="stat-info">
-                <h3>Waktu Respon</h3>
-                <p class="stat-value" id="response-time">32ms</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
-              <div class="stat-info">
-                <h3>Uptime</h3>
-                <p class="stat-value" id="uptime">99.98%</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon warning"><i class="fas fa-plug"></i></div>
-              <div class="stat-info">
-                <h3>Endpoints</h3>
-                <p class="stat-value" id="endpoint-count">Loading...</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
-              <div class="stat-info">
-                <h3>Error</h3>
-                <p class="stat-value" id="error-count">0</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Aktivitas Terakhir -->
-          <div class="recent-activity">
-            <h3 class="activity-title">
-              <i class="fas fa-history"></i> Aktivitas Terakhir
-            </h3>
-            <div class="activity-list" id="activity-feed"></div>
-          </div>
-        </section>
-
-        <!-- Endpoints -->
-        <section class="section hidden" id="endpoints-section">
-          <div class="endpoint-controls">
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" id="endpoint-search" placeholder="Cari endpoint..." />
-            </div>
-            <div class="filter-buttons">
-              <button class="filter-btn active" data-filter="all">Semua</button>
-              <button class="filter-btn" data-filter="ready">Siap</button>
-              <button class="filter-btn" data-filter="beta">Beta</button>
-              <button class="filter-btn" data-filter="down">Maintenance</button>
-            </div>
-          </div>
-          <div class="endpoints-grid" id="endpoints-container"></div>
-        </section>
-
-        <!-- Dokumentasi/API Tester -->
-        <section class="section hidden" id="documentation-section">
-          <div class="api-tester">
-            <div class="tester-header">
-              <h3><i class="fas fa-flask"></i> API Playground</h3>
-              <div class="request-method">
-                <select id="http-method">
-                  <option value="GET">GET</option>
-                  <option value="POST">POST</option>
-                  <option value="PUT">PUT</option>
-                  <option value="DELETE">DELETE</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="tester-url">
-              <span class="base-url">https://fuku-rest.vercel.app</span>
-              <input type="text" id="endpoint-path" placeholder="/endpoint/path" />
-              <button id="send-request"><i class="fas fa-paper-plane"></i> Kirim</button>
-            </div>
-
-            <div class="tester-params">
-              <div class="params-tabs">
-                <button class="param-tab active" data-tab="query">Parameter Query</button>
-                <button class="param-tab" data-tab="headers">Headers</button>
-                <button class="param-tab" data-tab="body">Request Body</button>
-              </div>
-              <div class="params-content" id="query-params"></div>
-              <div class="params-content hidden" id="headers-params"></div>
-              <div class="params-content hidden" id="body-params">
-                <textarea id="request-body" placeholder="JSON body"></textarea>
-              </div>
-            </div>
-
-            <div class="tester-response">
-              <div class="response-header">
-                <h4><i class="fas fa-code-branch"></i> Response</h4>
-                <div class="response-status">Status: <span id="response-status">Menunggu...</span></div>
-              </div>
-              <div class="response-tabs">
-                <button class="response-tab active" data-tab="preview">Preview</button>
-                <button class="response-tab" data-tab="raw">Raw</button>
-                <button class="response-tab" data-tab="headers">Headers</button>
-              </div>
-              <div class="response-content">
-                <pre id="response-preview">{
-  "message": "Pilih endpoint dan klik Kirim"
-}</pre>
-                <pre class="hidden" id="response-raw"></pre>
-                <pre class="hidden" id="response-headers"></pre>
-              </div>
-            </div>
-          </div>
-        </section>
+    </aside><!-- Main Content -->
+<main class="main-content">
+  <header class="content-header">
+    <div class="header-title">
+      <h2 id="current-section">Dashboard</h2>
+      <p id="section-description">Ringkasan layanan API Anda</p>
+    </div>
+    <div class="user-controls">
+      <div class="theme-switcher">
+        <i class="fas fa-moon"></i>
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider round"></span>
+        </label>
+        <i class="fas fa-sun"></i>
       </div>
-    </main>
-  </div>
+    </div>
+  </header>
 
-  <!-- Script eksternal -->
-  <script src="script.js"></script>
-</body>
+  <div class="content-wrapper">
+    <!-- Welcome Alert -->
+    <div class="alert alert-success">
+      <i class="fas fa-check-circle"></i> Selamat datang di <strong>Fukushima UI</strong>!
+      <span class="alert-close" onclick="this.parentElement.style.display='none'">&times;</span>
+    </div>
+
+    <!-- Dashboard Section -->
+    <section class="section" id="dashboard-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon primary"><i class="fas fa-bolt"></i></div>
+          <div class="stat-info">
+            <h3>Waktu Respon</h3>
+            <p class="stat-value" id="response-time">32ms</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <h3>Uptime</h3>
+            <p class="stat-value" id="uptime">99.98%</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon warning"><i class="fas fa-plug"></i></div>
+          <div class="stat-info">
+            <h3>Endpoints</h3>
+            <p class="stat-value" id="endpoint-count">24</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="stat-info">
+            <h3>Error</h3>
+            <p class="stat-value" id="error-count">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bandwidth Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Penggunaan Bandwidth</h3>
+        </div>
+        <div class="card-body">
+          <p>Total Pemakaian Bulan Ini:</p>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 72%;"></div>
+          </div>
+          <small>72% dari 10GB</small>
+        </div>
+      </div>
+
+      <!-- Aktivitas Terakhir -->
+      <div class="recent-activity">
+        <h3 class="activity-title">
+          <i class="fas fa-history"></i> Aktivitas Terakhir
+        </h3>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon"><i class="fas fa-download"></i></div>
+            <div class="activity-content">
+              <span class="activity-method get-method">GET</span>
+              <span class="activity-path">/api/users</span>
+              <div class="activity-time"><i class="fas fa-clock"></i> 5 menit lalu</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon"><i class="fas fa-upload"></i></div>
+            <div class="activity-content">
+              <span class="activity-method post-method">POST</span>
+              <span class="activity-path">/api/data</span>
+              <div class="activity-time"><i class="fas fa-clock"></i> 10 menit lalu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tombol Aksi -->
+    <div class="card" style="margin-top: 2rem;">
+      <div class="card-body">
+        <button class="try-btn"><i class="fas fa-plus"></i> Tambah Endpoint Baru</button>
+        <button class="try-btn" style="background: var(--gradient-warning);"><i class="fas fa-sync"></i> Refresh Statistik</button>
+      </div>
+    </div>
+
+    <!-- Tooltip dan Badge -->
+    <div style="margin-top: 2rem;">
+      <span class="badge badge-success">Ready</span>
+      <span class="badge badge-warning">Beta</span>
+      <span class="badge badge-danger">Error</span>
+
+      <div class="tooltip" style="margin-left: 2rem;">
+        <button class="try-btn"><i class="fas fa-info"></i> Info</button>
+        <span class="tooltip-text">Ini adalah tombol informasi</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+  </div>  <!-- Script Placeholder -->  <script src="script.js"></script></body>
 </html>
