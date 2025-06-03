@@ -31,6 +31,16 @@
   "params": {
     "q": "Keyword to search YouTube videos"
   }
+},
+{
+  "name": "YouTube MP3 Download",
+  "desc": "Download MP3 audio from YouTube video URL with available quality and metadata",
+  "path": "/download/ytmp3?url=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "url": "YouTube video URL to download MP3"
+  }
 }
   ]
 }
