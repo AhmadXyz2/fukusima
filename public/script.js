@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
             renderEndpoints(endpoints);
             
             // Sample API calls
-            makeRequest('GET', '/download/fb?url=https://facebook.com/video123');
-            makeRequest('POST', '/tobase64', { text: 'Hello World' });
+            logActivity('GET', '/download/fb?url=https://facebook.com/video123');
+            logActivity('POST', '/tobase64', { text: 'Hello World' });
         })
         .catch(error => {
             console.error('API Load Error:', error);
@@ -256,6 +256,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const endpointCard = document.createElement('div');
             endpointCard.className = `endpoint-card ${endpoint.status.toLowerCase()}`;
             
+            const paramsHTML = endpoint.params 
+                ? `<div class="endpoint-params">
+                    <h4>Parameters:</h4>
+                    ${Object.entries(endpoint.params).map(([name, desc]) => `
+                        <div class="param-item">
+                            <span class="param-name">${name}:</span>
+                            <span class="param-desc">${desc}</span>
+                        </div>
+                    `).join('')}
+                   </div>`
+                : '';
+            
             endpointCard.innerHTML = `
                 <div class="endpoint-header">
                     <div class="endpoint-name">${endpoint.name}</div>
@@ -264,6 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="endpoint-body">
                     <div class="endpoint-description">${endpoint.desc}</div>
                     <div class="endpoint-path">${endpoint.path}</div>
+                    ${paramsHTML}
                 </div>
                 <div class="endpoint-footer">
                     <button class="try-btn" data-path="${endpoint.path}">
