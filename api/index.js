@@ -22,6 +22,8 @@ app.use('/tools/tobase64', require('./tools/tobase64'));
 app.use('/search/yts', require('./search/yts'));
 app.use('/search/pinterest', require('./search/pinterest'));
 app.use('/download/ytmp3', require('./download/ytmp3'));
+app.use('/search/emojimix', require('./search/emojimix'));
+
 
 
 

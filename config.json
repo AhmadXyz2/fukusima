@@ -23,6 +23,21 @@
   }
 },
 {
+  "name": "Emoji Mix Image",
+  "desc": "Generate and retrieve a combined emoji image from two emoji characters",
+  "path": "/search/emojimix?emoji1=&emoji2=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "emoji1": "First emoji character (URL encoded if needed)",
+    "emoji2": "Second emoji character (URL encoded if needed)"
+  },
+  "response": {
+    "content-type": "image/png",
+    "description": "Returns a PNG image that is a mix of the two provided emojis"
+  }
+},
+{
   "name": "YouTube MP3 Search",
   "desc": "Search YouTube for videos and retrieve metadata (without download links) based on a keyword",
   "path": "/search/yts?q=",
