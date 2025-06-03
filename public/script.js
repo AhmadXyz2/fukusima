@@ -24,6 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const queryParams = document.getElementById('query-params');
     const headersParams = document.getElementById('headers-params');
     const requestBody = document.getElementById('request-body');
+    
+    const requestBody = document.getElementById('request-body');
+const baseUrl = document.getElementById('base-url');
+if (baseUrl) baseUrl.textContent = window.location.origin;
 
     // Variables
     let endpoints = [];
