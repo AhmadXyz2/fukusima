@@ -21,6 +21,16 @@
   "params": {
     "q": "Keyword to search images"
   }
+},
+{
+  "name": "YouTube MP3 Search",
+  "desc": "Search YouTube for videos and retrieve metadata (without download links) based on a keyword",
+  "path": "/search/yts?q=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "q": "Keyword to search YouTube videos"
+  }
 }
   ]
 }
