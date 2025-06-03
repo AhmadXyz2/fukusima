@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const requestBody = document.getElementById('request-body');
     
     const requestBody = document.getElementById('request-body');
-const baseUrl = document.getElementById('base-url');
-if (baseUrl) baseUrl.textContent = window.location.origin;
+
 
     // Variables
     let endpoints = [];
