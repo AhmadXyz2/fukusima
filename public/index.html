@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif.</title>
   <meta name="description" content="Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif." />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -20,105 +20,193 @@
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <div class="app-container">
-    <aside class="sidebar">
-      <div class="logo-container">
-        <i class="fas fa-api logo-icon"></i>
-        <div class="logo-text">Fuku<span>shima</span></div>
-      </div>
-      <nav class="nav-menu">
-        <div class="nav-item" onclick="location.href='https://vortexionchat-ai.biz.id/chat/'">
-          <i class="fas fa-robot"></i> <span>Chat Bot</span>
-        </div>
-        <div class="nav-item active" data-section="dashboard">
-          <i class="fas fa-chart-line"></i> <span>Dashboard</span>
-        </div>
-        <div class="nav-item" data-section="endpoints">
-          <i class="fas fa-plug"></i> <span>Endpoints</span>
-        </div>
-        <div class="nav-item" data-section="documentation">
-          <i class="fas fa-book"></i> <span>Dokumentasi</span>
-        </div>
-      </nav>
-      <div class="api-status">
-        <div class="status-indicator active"></div>
-        <span>API Online</span>
-      </div>
-    </aside>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <i class="fas fa-api logo-icon"></i>
+                <div class="logo-text">Fuku<span>shima</span></div>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item" onclick="location.href='https://vortexionchat-ai.biz.id/chat/'">
+                    <i class="fas fa-robot"></i> <span>Chat Bot</span>
+                </div>
+                <div class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i> <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-section="endpoints">
+                    <i class="fas fa-plug"></i> <span>Endpoints</span>
+                </div>
+                <div class="nav-item" data-section="documentation">
+                    <i class="fas fa-book"></i> <span>Dokumentasi</span>
+                </div>
+            </nav>
+            <div class="api-status">
+                <div class="status-indicator active"></div>
+                <span>API Online</span>
+            </div>
+        </aside>
 
-    <main class="main-content">
-      <header class="content-header">
-        <div class="header-title">
-          <h2 id="current-section">Dashboard</h2>
-          <p id="section-description">Ringkasan layanan API Anda</p>
-        </div>
-        <div class="user-controls">
-          <div class="theme-switcher">
-            <i class="fas fa-moon"></i>
-            <label class="switch">
-              <input type="checkbox" id="theme-toggle" />
-              <span class="slider round"></span>
-            </label>
-            <i class="fas fa-sun"></i>
-          </div>
-        </div>
-      </header>
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h2 id="current-section">Dashboard</h2>
+                    <p id="section-description">Ringkasan layanan API Anda</p>
+                </div>
+                <div class="user-controls">
+                    <div class="theme-switcher">
+                        <i class="fas fa-moon"></i>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle" />
+                            <span class="slider round"></span>
+                        </label>
+                        <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+            </header>
 
-      <div class="content-wrapper">
-        <div class="alert alert-success">
-          <i class="fas fa-check-circle"></i> Selamat datang di <strong>Fukushima UI</strong>!
-          <span class="alert-close" onclick="this.parentElement.style.display='none'">&times;</span>
-        </div>
+            <div class="content-wrapper">
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Selamat datang di <strong>Fukushima UI</strong>!
+                    <span class="alert-close" onclick="this.parentElement.style.display='none'">&times;</span>
+                </div>
 
-        <!-- AI Switcher tetap ada tanpa menghilangkan fungsi lain -->
-        <div class="ai-switcher" style="margin-bottom:1rem; display:flex; gap:1rem; align-items:center;">
-          <label><input type="radio" name="ai" value="blackbox" checked /> Blackbox AI</label>
-          <label><input type="radio" name="ai" value="vortexion" /> Vortexion AI</label>
-        </div>
+                <section class="section" id="dashboard-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Waktu Respon</h3>
+                                <p class="stat-value" id="response-time">32ms</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Uptime</h3>
+                                <p class="stat-value" id="uptime">99.98%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Endpoints</h3>
+                                <p class="stat-value" id="endpoint-count">24</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Error</h3>
+                                <p class="stat-value" id="error-count">0</p>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Embed iframe AI -->
-        <section class="section" id="ai-embed-section" style="height:600px;">
-          <iframe
-            id="ai-iframe"
-            src="https://blackbox.chat/"
-            frameborder="0"
-            style="width:100%; height:100%; border:none;"
-            allowfullscreen
-          ></iframe>
-        </section>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Penggunaan Bandwidth</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Total Pemakaian Bulan Ini:</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 72%;"></div>
+                            </div>
+                            <small>72% dari 10GB</small>
+                        </div>
+                    </div>
 
-        <!-- Semua section lain tetap sama seperti aslinya -->
-        <section class="section" id="dashboard-section" style="display:none;">
-          <!-- isi dashboard asli tetap utuh -->
-          <!-- ... -->
-        </section>
+                    <div class="recent-activity">
+                        <h3 class="activity-title"><i class="fas fa-history"></i> Aktivitas Terakhir</h3>
+                        <div class="activity-list" id="activity-feed"></div>
+                    </div>
+                </section>
 
-        <section class="section" id="endpoints-section" style="display:none;">
-          <!-- isi endpoints asli tetap utuh -->
-          <!-- ... -->
-        </section>
+                <section class="section" id="endpoints-section">
+                    <div class="endpoint-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="endpoint-search" placeholder="Cari endpoint..." />
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">Semua</button>
+                            <button class="filter-btn" data-filter="ready">Siap</button>
+                            <button class="filter-btn" data-filter="beta">educational learning</button>
+                            <button class="filter-btn" data-filter="down">Maintenance</button>
+                        </div>
+                    </div>
+                    <div class="endpoints-grid" id="endpoints-container"></div>
+                </section>
 
-        <section class="section" id="documentation-section" style="display:none;">
-          <!-- isi dokumentasi asli tetap utuh -->
-          <!-- ... -->
-        </section>
-      </div>
-    </main>
-  </div>
+                <section class="section" id="documentation-section">
+                    <div class="api-tester">
+                        <div class="tester-header">
+                            <h3><i class="fas fa-flask"></i> API Playground</h3>
+                            <div class="request-method">
+                                <select id="http-method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="tester-url">
+                            <input type="text" id="endpoint-path" placeholder="/endpoint/path" />
+                            <button id="send-request"><i class="fas fa-paper-plane"></i> Kirim</button>
+                        </div>
+                        <div class="tester-params">
+                            <div class="params-tabs">
+                                <button class="param-tab active" data-tab="query">Parameter Query</button>
+                                <button class="param-tab" data-tab="headers">Headers</button>
+                                <button class="param-tab" data-tab="body">Request Body</button>
+                            </div>
+                            <div class="params-content" id="query-params"></div>
+                            <div class="params-content hidden" id="headers-params"></div>
+                            <div class="params-content hidden" id="body-params">
+                                <textarea id="request-body" placeholder="JSON body"></textarea>
+                            </div>
+                        </div>
+                        <div class="tester-response">
+                            <div class="response-header">
+                                <h4><i class="fas fa-code-branch"></i> Response</h4>
+                                <div class="response-status">Status: <span id="response-status">Menunggu...</span></div>
+                            </div>
+                            <div class="response-tabs">
+                                <button class="response-tab active" data-tab="preview">Preview</button>
+                                <button class="response-tab" data-tab="raw">Raw</button>
+                                <button class="response-tab" data-tab="headers">Headers</button>
+                            </div>
+                            <div class="response-content">
+                                <pre id="response-preview">{"message": "Pilih endpoint dan klik Kirim"}</pre>
+                                <pre class="hidden" id="response-raw"></pre>
+                                <pre class="hidden" id="response-headers"></pre>
+                                <button class="copy-btn" onclick="copyResponse()">
+                                    <i class="fas fa-copy"></i> Salin Response
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
 
-  <script src="script.js"></script>
-  <script>
-    // Fungsi toggle AI iframe tanpa mengubah fungsi lain
-    document.querySelectorAll('input[name="ai"]').forEach(radio => {
-      radio.addEventListener('change', e => {
-        const iframe = document.getElementById('ai-iframe');
-        if (e.target.value === 'blackbox') {
-          iframe.src = 'https://blackbox.chat/';
-        } else if (e.target.value === 'vortexion') {
-          iframe.src = 'https://vortexionchat-ai.biz.id/chat/';
+    <script src="script.js"></script>
+    <script>
+        function copyResponse() {
+            const t = document.getElementById("response-preview").innerText;
+            navigator.clipboard.writeText(t).then(() => {
+                alert("Response berhasil disalin!")
+            })
         }
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
