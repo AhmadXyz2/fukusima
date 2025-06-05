@@ -19,7 +19,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
   <style>
-      /* Embed Section Styles */
 .embed-controls {
     background: var(--card-bg);
     border-radius: 8px;
@@ -55,7 +54,7 @@
 #load-embed {
     padding: 12px 20px;
     background: var(--primary-color);
-    color: white;
+    color: blueviolet;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -113,7 +112,7 @@
 .embed-options input[type="checkbox"]:checked::after {
     content: "✓";
     position: absolute;
-    color: white;
+    color: black;
     font-size: 12px;
     top: 50%;
     left: 50%;
@@ -440,22 +439,15 @@
                     alert('Silakan masukkan URL yang valid');
                 }
             });
-
-            // Handle navigation between sections
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const section = this.getAttribute('data-section');
                     if (section) {
-                        // Hide all sections
                         document.querySelectorAll('.section').forEach(sec => {
                             sec.classList.add('hidden');
                         });
-                        
-                        // Show selected section
                         document.getElementById(`${section}-section`).classList.remove('hidden');
-                        
-                        // Update current section title
                         document.getElementById('current-section').textContent = 
                             this.querySelector('span').textContent;
                     }
