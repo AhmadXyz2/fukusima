@@ -39,6 +39,9 @@
                 <div class="nav-item" data-section="documentation">
                     <i class="fas fa-book"></i> <span>Dokumentasi</span>
                 </div>
+                <div class="nav-item" data-section="embed">
+                    <i class="fas fa-box"></i> <span>Web Embed</span>
+                </div>
             </nav>
             <div class="api-status">
                 <div class="status-indicator active"></div>
@@ -195,6 +198,32 @@
                         </div>
                     </div>
                 </section>
+
+                <section class="section hidden" id="embed-section">
+                    <div class="embed-controls">
+                        <div class="embed-input">
+                            <input type="text" id="embed-url" placeholder="Masukkan URL untuk di-embed (contoh: https://example.com)" />
+                            <button id="load-embed"><i class="fas fa-box-open"></i> Muat</button>
+                        </div>
+                        <div class="embed-options">
+                            <label>
+                                <input type="checkbox" id="embed-sandbox" checked />
+                                Sandbox Mode
+                            </label>
+                            <label>
+                                <input type="checkbox" id="embed-allow-scripts" checked />
+                                Izinkan Script
+                            </label>
+                        </div>
+                    </div>
+                    <div class="embed-container">
+                        <iframe id="embed-frame" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                        <div class="embed-placeholder" id="embed-placeholder">
+                            <i class="fas fa-box-open"></i>
+                            <p>Masukkan URL dan klik "Muat" untuk menampilkan konten</p>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
@@ -207,6 +236,60 @@
                 alert("Response berhasil disalin!")
             })
         }
+
+        // Embed functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadEmbedBtn = document.getElementById('load-embed');
+            const embedUrlInput = document.getElementById('embed-url');
+            const embedFrame = document.getElementById('embed-frame');
+            const embedPlaceholder = document.getElementById('embed-placeholder');
+            const sandboxCheckbox = document.getElementById('embed-sandbox');
+            const scriptsCheckbox = document.getElementById('embed-allow-scripts');
+
+            loadEmbedBtn.addEventListener('click', function() {
+                const url = embedUrlInput.value.trim();
+                if (url) {
+                    // Update sandbox attributes based on checkboxes
+                    let sandboxAttrs = '';
+                    if (sandboxCheckbox.checked) {
+                        sandboxAttrs = 'allow-same-origin allow-popups allow-forms';
+                        if (scriptsCheckbox.checked) {
+                            sandboxAttrs += ' allow-scripts';
+                        }
+                    } else {
+                        sandboxAttrs = '';
+                    }
+                    
+                    embedFrame.setAttribute('sandbox', sandboxAttrs);
+                    embedFrame.src = url;
+                    embedPlaceholder.style.display = 'none';
+                    embedFrame.style.display = 'block';
+                } else {
+                    alert('Silakan masukkan URL yang valid');
+                }
+            });
+
+            // Handle navigation between sections
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    if (section) {
+                        // Hide all sections
+                        document.querySelectorAll('.section').forEach(sec => {
+                            sec.classList.add('hidden');
+                        });
+                        
+                        // Show selected section
+                        document.getElementById(`${section}-section`).classList.remove('hidden');
+                        
+                        // Update current section title
+                        document.getElementById('current-section').textContent = 
+                            this.querySelector('span').textContent;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
