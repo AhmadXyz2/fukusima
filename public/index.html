@@ -48,7 +48,7 @@
 #embed-url:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+    box-shadow: 0 0 0 2px rgba(65, 141, 225, 0.2);
 }
 
 #load-embed {
@@ -188,6 +188,182 @@
         height: 400px;
     }
 }
+
+/* YouTube Downloader Styles */
+.youtube-downloader {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.youtube-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#youtube-url {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#download-audio {
+    padding: 12px 20px;
+    background: var(--primary-color);
+    color: blueviolet;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#download-audio:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+#download-audio:active {
+    transform: translateY(0);
+}
+
+.quality-options {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+.quality-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.quality-options input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.quality-options input[type="radio"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.quality-options input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.result-container {
+    display: none;
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.result-header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.thumbnail {
+    width: 120px;
+    height: 90px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.video-info {
+    flex: 1;
+}
+
+.video-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.video-author {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.video-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.download-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+}
+
+.download-link:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+.loading i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
   </style>
 </head>
 <body>
@@ -209,6 +385,9 @@
                 </div>
                 <div class="nav-item" data-section="documentation">
                     <i class="fas fa-book"></i> <span>Dokumentasi</span>
+                </div>
+                <div class="nav-item" data-section="youtube">
+                    <i class="fas fa-music"></i> <span>YouTube Downloader</span>
                 </div>
                 <div class="nav-item" data-section="embed">
                     <i class="fas fa-box"></i> <span>Web Embed</span>
@@ -370,6 +549,55 @@
                     </div>
                 </section>
 
+                <section class="section hidden" id="youtube-section">
+                    <div class="youtube-downloader">
+                        <h3><i class="fas fa-music"></i> YouTube Audio Downloader</h3>
+                        <p>Download audio dari video YouTube dalam format MP3</p>
+                        
+                        <div class="youtube-input">
+                            <input type="text" id="youtube-url" placeholder="Masukkan URL YouTube (contoh: https://youtu.be/dQw4w9WgXcQ)" />
+                            <button id="download-audio"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                        
+                        <div class="quality-options">
+                            <label>
+                                <input type="radio" name="quality" value="128kbps" checked />
+                                128kbps
+                            </label>
+                            <label>
+                                <input type="radio" name="quality" value="192kbps" />
+                                192kbps
+                            </label>
+                            <label>
+                                <input type="radio" name="quality" value="320kbps" />
+                                320kbps
+                            </label>
+                        </div>
+                        
+                        <div class="loading" id="loading">
+                            <i class="fas fa-spinner"></i>
+                            <p>Memproses video...</p>
+                        </div>
+                        
+                        <div class="result-container" id="result-container">
+                            <div class="result-header">
+                                <img id="thumbnail" class="thumbnail" src="" alt="Thumbnail">
+                                <div class="video-info">
+                                    <h4 id="video-title" class="video-title"></h4>
+                                    <p id="video-author" class="video-author"></p>
+                                    <div class="video-meta">
+                                        <span id="video-duration"></span>
+                                        <span id="video-views"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="download-link" class="download-link" href="#" target="_blank">
+                                <i class="fas fa-download"></i> Download MP3
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="section hidden" id="embed-section">
                     <div class="embed-controls">
                         <div class="embed-input">
@@ -408,6 +636,69 @@
             })
         }
 
+        // YouTube Downloader functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.getElementById('download-audio');
+            const youtubeUrlInput = document.getElementById('youtube-url');
+            const loadingElement = document.getElementById('loading');
+            const resultContainer = document.getElementById('result-container');
+            
+            downloadBtn.addEventListener('click', function() {
+                const url = youtubeUrlInput.value.trim();
+                if (!url) {
+                    alert('Silakan masukkan URL YouTube');
+                    return;
+                }
+                
+                // Validasi URL YouTube
+                if (!url.match(/youtube\.com|youtu\.be/)) {
+                    alert('URL YouTube tidak valid');
+                    return;
+                }
+                
+                // Tampilkan loading
+                loadingElement.style.display = 'block';
+                resultContainer.style.display = 'none';
+                
+                // Dapatkan kualitas yang dipilih
+                const quality = document.querySelector('input[name="quality"]:checked').value;
+                
+                // Buat URL API
+                const apiUrl = `https://fastrestapis.fasturl.cloud/downup/ytmp3?url=${encodeURIComponent(url)}&quality=${quality}&server=auto`;
+                
+                // Panggil API
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        loadingElement.style.display = 'none';
+                        
+                        if (data.status === 200) {
+                            // Tampilkan hasil
+                            document.getElementById('thumbnail').src = data.result.metadata.thumbnail;
+                            document.getElementById('video-title').textContent = data.result.title;
+                            document.getElementById('video-author').textContent = data.result.author.name;
+                            document.getElementById('video-duration').textContent = data.result.metadata.duration;
+                            document.getElementById('video-views').textContent = data.result.metadata.views + ' views';
+                            
+                            // Set link download
+                            const downloadLink = document.getElementById('download-link');
+                            downloadLink.href = data.result.media;
+                            downloadLink.setAttribute('download', `${data.result.title}.mp3`);
+                            
+                            // Tampilkan container hasil
+                            resultContainer.style.display = 'block';
+                        } else {
+                            alert('Gagal memproses video: ' + data.content);
+                        }
+                    })
+                    .catch(error => {
+                        loadingElement.style.display = 'none';
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memproses video');
+                    });
+            });
+        });
+
         // Embed functionality
         document.addEventListener('DOMContentLoaded', function() {
             const loadEmbedBtn = document.getElementById('load-embed');
@@ -439,6 +730,7 @@
                     alert('Silakan masukkan URL yang valid');
                 }
             });
+            
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
