@@ -602,42 +602,94 @@
 
                 <section class="section hidden" id="youtube-downloader-section">
                     <div class="youtube-downloader">
-                  <div class="download-tabs">
-  <button class="download-tab" data-tab="mp3">MP3 Audio</button>
-  <button class="download-tab active" data-tab="mp4">MP4 Video</button>
-</div>
+                        <div class="download-tabs">
+                            <button class="download-tab active" data-tab="mp3">MP3 Audio</button>
+                            <button class="download-tab" data-tab="mp4">MP4 Video</button>
+                        </div>
+                        
+                        <div class="download-content active" id="mp3-tab">
+                            <h3><i class="fas fa-music"></i> YouTube to MP3</h3>
+                            <p>Download audio dari video YouTube</p>
+                            
+                            <div class="youtube-input">
+                                <input type="text" id="youtube-url" placeholder="Masukkan URL YouTube" />
+                                <button id="download-audio"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                            
+                            <div class="quality-options">
+                                <label>
+                                    <input type="radio" name="quality" value="128kbps" checked />
+                                    128kbps
+                                </label>
+                                <label>
+                                    <input type="radio" name="quality" value="192kbps" />
+                                    192kbps
+                                </label>
+                                <label>
+                                    <input type="radio" name="quality" value="320kbps" />
+                                    320kbps
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="download-content hidden" id="mp4-tab">
+                            <h3><i class="fas fa-video"></i> YouTube to MP4</h3>
+                            <p>Download video dari YouTube</p>
+                            
+                            <div class="youtube-input">
+                    <input type="text" id="youtube-mp4-url" placeholder="Masukkan URL YouTube" />            <button id="download-mp4"><i class="fas fa-download"></i> Download</button>
+                            </div>
+                            
+                            <div class="quality-options">
+                                <label>
+                                    <input type="radio" name="mp4-quality" value="360" checked />
+                                    360p
+                                </label>
+                                <label>
+                                    <input type="radio" name="mp4-quality" value="480" />
+                                    480p
+                                </label>
+                                <label>
+                                    <input type="radio" name="mp4-quality" value="720" />
+                                    720p
+                                </label>
+                                <label>
+                                    <input type="radio" name="mp4-quality" value="1080" />
+                                    1080p
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="loading" id="loading">
+                            <i class="fas fa-spinner"></i>
+                            <p>Memproses...</p>
+                        </div>
+                        
+                        <div class="result-container" id="result-container">
+                            <div class="result-header">
+                                <img id="thumbnail" class="thumbnail" src="" alt="Thumbnail">
+                                <div class="video-info">
+                                    <h4 id="video-title" class="video-title"></h4>
+                                    <p id="video-author" class="video-author"></p>
+                                    <div class="video-meta">
+                                        <span id="video-duration"></span>
+                                        <span id="video-views"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="download-link" class="download-link" href="#" target="_blank">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                </section>
 
-<div class="download-content" id="mp3-tab">
-  <h3><i class="fas fa-music"></i> YouTube to MP3</h3>
-  <p>Download audio dari video YouTube</p>
-
-  <div class="youtube-input">
-    <input type="text" id="youtube-url" placeholder="Masukkan URL YouTube" />
-    <button id="download-audio"><i class="fas fa-download"></i> Download</button>
-  </div>
-
-  <div class="quality-options">
-    <label><input type="radio" name="quality" value="128kbps" checked />128kbps</label>
-    <label><input type="radio" name="quality" value="192kbps" />192kbps</label>
-    <label><input type="radio" name="quality" value="320kbps" />320kbps</label>
-  </div>
-</div>
-
-<div class="download-content active" id="mp4-tab">
-  <h3><i class="fas fa-video"></i> YouTube to MP4</h3>
-  <p>Download video dari YouTube</p>
-
-  <div class="youtube-input">
-    <input type="text" id="youtube-mp4-url" placeholder="Masukkan URL YouTube" />
-    <button id="download-mp4"><i class="fas fa-download"></i> Download</button>
-  </div>
-
-  <div class="quality-options">
-    <label><input type="radio" name="mp4-quality" value="360" checked />360p</label>
-    <label><input type="radio" name="mp4-quality" value="480" />480p</label>
-    <label><input type="radio" name="mp4-quality" value="720" />720p</label>
-    <label><input type="radio" name="mp4-quality" value="1080" />1080p</label>
-  </div>
+                <section class="section hidden" id="embed-section">
+                    <div class="embed-controls">
+                        <div class="embed-input">
+                            <input type="text" id="embed-url" placeholder="Masukkan URL untuk di-embed (contoh: https://example.com)" />
+                            <button id="load-embed"><i class="fas fa-box-open"></i> Muat</button>
+                        </div>
                         <div class="embed-options">
                             <label>
                                 <input type="checkbox" id="embed-sandbox" checked />
