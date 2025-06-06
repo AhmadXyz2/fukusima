@@ -364,6 +364,41 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.download-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.download-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.download-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.download-tab:hover:not(.active) {
+    color: var(--text-color);
+}
+
+.download-content {
+    display: none;
+}
+
+.download-content.active {
+    display: block;
+}
   </style>
 </head>
 <body>
@@ -549,54 +584,93 @@
                     </div>
                 </section>
 
-                <section class="section hidden" id="youtube-section">
-                    <div class="youtube-downloader">
-                        <h3><i class="fas fa-music"></i> YouTube Audio Downloader</h3>
-                        <p>Download audio dari video YouTube dalam format MP3</p>
-                        
-                        <div class="youtube-input">
-                            <input type="text" id="youtube-url" placeholder="Masukkan URL YouTube (contoh: https://youtu.be/dQw4w9WgXcQ)" />
-                            <button id="download-audio"><i class="fas fa-download"></i> Download</button>
-                        </div>
-                        
-                        <div class="quality-options">
-                            <label>
-                                <input type="radio" name="quality" value="128kbps" checked />
-                                128kbps
-                            </label>
-                            <label>
-                                <input type="radio" name="quality" value="192kbps" />
-                                192kbps
-                            </label>
-                            <label>
-                                <input type="radio" name="quality" value="320kbps" />
-                                320kbps
-                            </label>
-                        </div>
-                        
-                        <div class="loading" id="loading">
-                            <i class="fas fa-spinner"></i>
-                            <p>Memproses video...</p>
-                        </div>
-                        
-                        <div class="result-container" id="result-container">
-                            <div class="result-header">
-                                <img id="thumbnail" class="thumbnail" src="" alt="Thumbnail">
-                                <div class="video-info">
-                                    <h4 id="video-title" class="video-title"></h4>
-                                    <p id="video-author" class="video-author"></p>
-                                    <div class="video-meta">
-                                        <span id="video-duration"></span>
-                                        <span id="video-views"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <a id="download-link" class="download-link" href="#" target="_blank">
-                                <i class="fas fa-download"></i> Download MP3
-                            </a>
-                        </div>
+                <section class="section hidden" id="youtube-downloader-section">
+    <div class="youtube-downloader">
+        <div class="download-tabs">
+            <button class="download-tab active" data-tab="mp3">MP3 Audio</button>
+            <button class="download-tab" data-tab="mp4">MP4 Video</button>
+        </div>
+        
+        <!-- Tab MP3 -->
+        <div class="download-content active" id="mp3-tab">
+            <h3><i class="fas fa-music"></i> YouTube to MP3</h3>
+            <p>Download audio dari video YouTube</p>
+            
+            <div class="youtube-input">
+                <input type="text" id="youtube-url" placeholder="Masukkan URL YouTube" />
+                <button id="download-audio"><i class="fas fa-download"></i> Download</button>
+            </div>
+            
+            <div class="quality-options">
+                <label>
+                    <input type="radio" name="quality" value="128kbps" checked />
+                    128kbps
+                </label>
+                <label>
+                    <input type="radio" name="quality" value="192kbps" />
+                    192kbps
+                </label>
+                <label>
+                    <input type="radio" name="quality" value="320kbps" />
+                    320kbps
+                </label>
+            </div>
+        </div>
+        
+        <!-- Tab MP4 -->
+        <div class="download-content hidden" id="mp4-tab">
+            <h3><i class="fas fa-video"></i> YouTube to MP4</h3>
+            <p>Download video dari YouTube</p>
+            
+            <div class="youtube-input">
+                <input type="text" id="youtube-mp4-url" placeholder="Masukkan URL YouTube" />
+                <button id="download-mp4"><i class="fas fa-download"></i> Download</button>
+            </div>
+            
+            <div class="quality-options">
+                <label>
+                    <input type="radio" name="mp4-quality" value="360" checked />
+                    360p
+                </label>
+                <label>
+                    <input type="radio" name="mp4-quality" value="480" />
+                    480p
+                </label>
+                <label>
+                    <input type="radio" name="mp4-quality" value="720" />
+                    720p
+                </label>
+                <label>
+                    <input type="radio" name="mp4-quality" value="1080" />
+                    1080p
+                </label>
+            </div>
+        </div>
+        
+        <!-- Hasil Download (Shared) -->
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Memproses...</p>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-header">
+                <img id="thumbnail" class="thumbnail" src="" alt="Thumbnail">
+                <div class="video-info">
+                    <h4 id="video-title" class="video-title"></h4>
+                    <p id="video-author" class="video-author"></p>
+                    <div class="video-meta">
+                        <span id="video-duration"></span>
+                        <span id="video-views"></span>
                     </div>
-                </section>
+                </div>
+            </div>
+            <a id="download-link" class="download-link" href="#" target="_blank">
+                <i class="fas fa-download"></i> Download
+            </a>
+        </div>
+    </div>
+</section>
 
                 <section class="section hidden" id="embed-section">
                     <div class="embed-controls">
@@ -671,21 +745,16 @@
                     .then(response => response.json())
                     .then(data => {
                         loadingElement.style.display = 'none';
-                        
+                    
                         if (data.status === 200) {
-                            // Tampilkan hasil
                             document.getElementById('thumbnail').src = data.result.metadata.thumbnail;
                             document.getElementById('video-title').textContent = data.result.title;
                             document.getElementById('video-author').textContent = data.result.author.name;
                             document.getElementById('video-duration').textContent = data.result.metadata.duration;
                             document.getElementById('video-views').textContent = data.result.metadata.views + ' views';
-                            
-                            // Set link download
                             const downloadLink = document.getElementById('download-link');
                             downloadLink.href = data.result.media;
                             downloadLink.setAttribute('download', `${data.result.title}.mp3`);
-                            
-                            // Tampilkan container hasil
                             resultContainer.style.display = 'block';
                         } else {
                             alert('Gagal memproses video: ' + data.content);
@@ -698,8 +767,57 @@
                     });
             });
         });
+        // YouTube MP4 Downloader functionality
+const downloadMp4Btn = document.getElementById('download-mp4');
+const youtubeMp4UrlInput = document.getElementById('youtube-mp4-url');
+const mp4LoadingElement = document.getElementById('mp4-loading');
+const mp4ResultContainer = document.getElementById('mp4-result-container');
 
-        // Embed functionality
+downloadMp4Btn.addEventListener('click', function() {
+    const url = youtubeMp4UrlInput.value.trim();
+    if (!url) {
+        alert('Silakan masukkan URL YouTube');
+        return;
+    }
+    
+    if (!url.match(/youtube\.com|youtu\.be/)) {
+        alert('URL YouTube tidak valid');
+        return;
+    }
+    
+    mp4LoadingElement.style.display = 'block';
+    mp4ResultContainer.style.display = 'none';
+    
+    const quality = document.querySelector('input[name="mp4-quality"]:checked').value;
+    const apiUrl = `https://fastrestapis.fasturl.cloud/downup/ytmp4?url=${encodeURIComponent(url)}&quality=${quality}&server=auto`;
+    
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            mp4LoadingElement.style.display = 'none';
+            
+            if (data.status === 200) {
+                document.getElementById('mp4-thumbnail').src = data.result.metadata.thumbnail;
+                document.getElementById('mp4-video-title').textContent = data.result.title;
+                document.getElementById('mp4-video-author').textContent = data.result.author.name;
+                document.getElementById('mp4-video-duration').textContent = data.result.metadata.duration;
+                document.getElementById('mp4-video-views').textContent = data.result.metadata.views + ' views';
+                
+                const downloadLink = document.getElementById('mp4-download-link');
+                downloadLink.href = data.result.media;
+                downloadLink.setAttribute('download', `${data.result.title}.mp4`);
+                
+                mp4ResultContainer.style.display = 'block';
+            } else {
+                alert('Gagal memproses video: ' + data.content);
+            }
+        })
+        .catch(error => {
+            mp4LoadingElement.style.display = 'none';
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memproses video');
+        });
+});
         document.addEventListener('DOMContentLoaded', function() {
             const loadEmbedBtn = document.getElementById('load-embed');
             const embedUrlInput = document.getElementById('embed-url');
@@ -711,7 +829,6 @@
             loadEmbedBtn.addEventListener('click', function() {
                 const url = embedUrlInput.value.trim();
                 if (url) {
-                    // Update sandbox attributes based on checkboxes
                     let sandboxAttrs = '';
                     if (sandboxCheckbox.checked) {
                         sandboxAttrs = 'allow-same-origin allow-popups allow-forms';
@@ -746,6 +863,38 @@
                 });
             });
         });
+        
+        document.querySelectorAll('.download-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        document.querySelectorAll('.download-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+        document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+    });
+});
+
+// Shared result container
+const loadingElement = document.getElementById('loading');
+const resultContainer = document.getElementById('result-container');
+const downloadLink = document.getElementById('download-link');
+
+// Fungsi untuk menampilkan hasil (digunakan oleh MP3 dan MP4)
+function showResult(data, extension) {
+    document.getElementById('thumbnail').src = data.result.metadata.thumbnail;
+    document.getElementById('video-title').textContent = data.result.title;
+    document.getElementById('video-author').textContent = data.result.author.name;
+    document.getElementById('video-duration').textContent = data.result.metadata.duration;
+    document.getElementById('video-views').textContent = data.result.metadata.views + ' views';
+    
+    downloadLink.href = data.result.media;
+    downloadLink.setAttribute('download', `${data.result.title}.${extension}`);
+    downloadLink.innerHTML = `<i class="fas fa-download"></i> Download ${extension.toUpperCase()}`;
+    
+    loadingElement.style.display = 'none';
+    resultContainer.style.display = 'block';
+}
     </script>
 </body>
 </html>
