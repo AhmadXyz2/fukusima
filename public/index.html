@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif.</title>
+  <title>Fukushima UI</title>
   <meta name="description" content="Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif." />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <meta property="og:title" content="Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif." />
+  <meta property="og:title" content="Fukushima UI" />
   <meta property="og:description" content="Fukushima UI adalah antarmuka modern untuk REST API dengan desain bersih dan responsif." />
   <meta property="og:image" content="https://files.catbox.moe/pdr394.jpg" />
   <meta property="og:url" content="https://fukushima-offc.biz.id/" />
@@ -19,401 +19,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
   <style>
-.embed-controls {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.embed-input {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-#embed-url {
-    flex: 1;
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--input-bg);
-    color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-#embed-url:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(65, 141, 225, 0.2);
-}
-
-#load-embed {
-    padding: 12px 20px;
-    background: var(--primary-color);
-    color: blueviolet;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#load-embed:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
-}
-
-#load-embed:active {
-    transform: translateY(0);
-}
-
-.embed-options {
-    display: flex;
-    gap: 20px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-.embed-options label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 14px;
-}
-
-.embed-options input[type="checkbox"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
-}
-
-.embed-options input[type="checkbox"]:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.embed-options input[type="checkbox"]:checked::after {
-    content: "✓";
-    position: absolute;
-    color: black;
-    font-size: 12px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.embed-container {
-    position: relative;
-    height: 600px;
-    background: var(--card-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-}
-
-#embed-frame {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: none;
-    background: white;
-}
-
-.embed-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    background: var(--card-bg);
-}
-
-.embed-placeholder i {
-    font-size: 48px;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-    opacity: 0.7;
-}
-
-.embed-placeholder p {
-    margin: 0;
-    font-size: 16px;
-    text-align: center;
-    max-width: 300px;
-    line-height: 1.5;
-}
-
-.youtube-downloader {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.youtube-input {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-#youtube-url, #youtube-mp4-url {
-    flex: 1;
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--input-bg);
-    color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-#download-audio, #download-mp4 {
-    padding: 12px 20px;
-    background: var(--primary-color);
-    color: blueviolet;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#download-audio:hover, #download-mp4:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
-}
-
-#download-audio:active, #download-mp4:active {
-    transform: translateY(0);
-}
-
-.quality-options {
-    display: flex;
-    gap: 20px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-    margin-bottom: 15px;
-}
-
-.quality-options label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 14px;
-}
-
-.quality-options input[type="radio"], .quality-options input[type="checkbox"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
-}
-
-.quality-options input[type="radio"] {
-    border-radius: 50%;
-}
-
-.quality-options input[type="radio"]:checked, .quality-options input[type="checkbox"]:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.quality-options input[type="radio"]:checked::after {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.result-container {
-    display: none;
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.result-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.thumbnail {
-    width: 120px;
-    height: 90px;
-    border-radius: 6px;
-    object-fit: cover;
-}
-
-.video-info {
-    flex: 1;
-}
-
-.video-title {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.video-author {
-    color: var(--text-secondary);
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.video-meta {
-    display: flex;
-    gap: 15px;
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-.download-link {
-    display: inline-block;
-    padding: 10px 15px;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    margin-top: 15px;
-    transition: all 0.2s ease;
-}
-
-.download-link:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
-}
-
-.loading {
-    display: none;
-    text-align: center;
-    padding: 20px;
-    color: var(--text-secondary);
-}
-
-.loading i {
-    font-size: 24px;
-    margin-bottom: 10px;
-    animation: spin 1s linear infinite;
-}
-
-.download-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 20px;
-}
-
-.download-tab {
-    padding: 10px 20px;
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
-}
-
-.download-tab.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-
-.download-tab:hover:not(.active) {
-    color: var(--text-color);
-}
-
-.download-content {
-    display: none;
-}
-
-.download-content.active {
-    display: block;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
+.embed-controls {background: var(--card-bg);border-radius: 8px;padding: 20px;margin-bottom: 20px;box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);}
+.embed-input {display: flex;gap: 10px;margin-bottom: 15px;}
+#embed-url {flex: 1;padding: 12px 15px;border: 1px solid var(--border-color);border-radius: 6px;background: var(--input-bg);color: var(--text-color);font-family: 'Poppins', sans-serif;font-size: 14px;transition: all 0.3s ease;}
+#embed-url:focus {outline: none;border-color: var(--primary-color);box-shadow: 0 0 0 2px rgba(65, 141, 225, 0.2);}
+#load-embed {padding: 12px 20px;background: var(--primary-color);color: blueviolet;border: none;border-radius: 6px;cursor: pointer;font-family: 'Poppins', sans-serif;font-weight: 500;transition: all 0.2s ease;display: flex;align-items: center;gap: 8px;}
+#load-embed:hover {background: var(--primary-hover);transform: translateY(-1px);}
+#load-embed:active {transform: translateY(0);}
+.embed-options {display: flex;gap: 20px;padding-top: 10px;border-top: 1px solid var(--border-color);}
+.embed-options label {display: flex;align-items: center;gap: 8px;cursor: pointer;color: var(--text-secondary);font-size: 14px;}
+.embed-options input[type="checkbox"] {-webkit-appearance: none;appearance: none;width: 18px;height: 18px;border: 1px solid var(--border-color);border-radius: 4px;outline: none;cursor: pointer;position: relative;transition: all 0.2s ease;}
+.embed-options input[type="checkbox"]:checked {background-color: var(--primary-color);border-color: var(--primary-color);}
+.embed-options input[type="checkbox"]:checked::after {content: "✓";position: absolute;color: black;font-size: 12px;top: 50%;left: 50%;transform: translate(-50%, -50%);}
+.embed-container {position: relative;height: 600px;background: var(--card-bg);border-radius: 8px;overflow: hidden;box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);}
+#embed-frame {width: 100%;height: 100%;border: none;display: none;background: white;}
+.embed-placeholder {position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: flex;flex-direction: column;align-items: center;justify-content: center;color: var(--text-secondary);background: var(--card-bg);}
+.embed-placeholder i {font-size: 48px;margin-bottom: 15px;color: var(--primary-color);opacity: 0.7;}
+.embed-placeholder p {margin: 0;font-size: 16px;text-align: center;max-width: 300px;line-height: 1.5;}
+.youtube-downloader {background: var(--card-bg);border-radius: 8px;padding: 20px;margin-bottom: 20px;box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);}
+.youtube-input {display: flex;gap: 10px;margin-bottom: 15px;}
+#youtube-url, #youtube-mp4-url {flex: 1;padding: 12px 15px;border: 1px solid var(--border-color);border-radius: 6px;background: var(--input-bg);color: var(--text-color);font-family: 'Poppins', sans-serif;font-size: 14px;transition: all 0.3s ease;}
+#download-audio, #download-mp4 {padding: 12px 20px;background: var(--primary-color);color: blueviolet;border: none;border-radius: 6px;cursor: pointer;font-family: 'Poppins', sans-serif;font-weight: 500;transition: all 0.2s ease;display: flex;align-items: center;gap: 8px;}
+#download-audio:hover, #download-mp4:hover {background: var(--primary-hover);transform: translateY(-1px);}
+#download-audio:active, #download-mp4:active {transform: translateY(0);}
+.quality-options {display: flex;gap: 20px;padding-top: 10px;border-top: 1px solid var(--border-color);margin-bottom: 15px;}
+.quality-options label {display: flex;align-items: center;gap: 8px;cursor: pointer;color: var(--text-secondary);font-size: 14px;}
+.quality-options input[type="radio"], .quality-options input[type="checkbox"] {-webkit-appearance: none;appearance: none;width: 18px;height: 18px;border: 1px solid var(--border-color);border-radius: 4px;outline: none;cursor: pointer;position: relative;transition: all 0.2s ease;}
+.quality-options input[type="radio"] {border-radius: 50%;}
+.quality-options input[type="radio"]:checked, .quality-options input[type="checkbox"]:checked {background-color: var(--primary-color);border-color: var(--primary-color);}
+.quality-options input[type="radio"]:checked::after {content: "";position: absolute;width: 8px;height: 8px;background: white;border-radius: 50%;top: 50%;left: 50%;transform: translate(-50%, -50%);}
+.result-container {display: none;background: var(--card-bg);border-radius: 8px;padding: 20px;margin-top: 20px;}
+.result-header {display: flex;gap: 15px;margin-bottom: 15px;}
+.thumbnail {width: 120px;height: 90px;border-radius: 6px;object-fit: cover;}
+.video-info {flex: 1;}
+.video-title {font-weight: 600;margin-bottom: 5px;}
+.video-author {color: var(--text-secondary);font-size: 14px;margin-bottom: 10px;}
+.video-meta {display: flex;gap: 15px;font-size: 13px;color: var(--text-secondary);}
+.download-link {display: inline-block;padding: 10px 15px;background: var(--primary-color);color: white;border-radius: 6px;text-decoration: none;font-weight: 500;margin-top: 15px;transition: all 0.2s ease;}
+.download-link:hover {background: var(--primary-hover);transform: translateY(-1px);}
+.loading {display: none;text-align: center;padding: 20px;color: var(--text-secondary);}
+.loading i {font-size: 24px;margin-bottom: 10px;animation: spin 1s linear infinite;}
+.download-tabs {display: flex;border-bottom: 1px solid var(--border-color);margin-bottom: 20px;}
+.download-tab {padding: 10px 20px;background: none;border: none;border-bottom: 3px solid transparent;cursor: pointer;font-family: 'Poppins', sans-serif;font-weight: 500;color: var(--text-secondary);transition: all 0.2s ease;}
+.download-tab.active {color: var(--primary-color);border-bottom-color: var(--primary-color);}
+.download-tab:hover:not(.active) {color: var(--text-color);}
+.download-content {display: none;}
+.download-content.active {display: block;}
+@keyframes spin {0% { transform: rotate(0deg); }100% { transform: rotate(360deg); }}
 @media (max-width: 768px) {
-    .embed-controls {
-        padding: 15px;
-    }
-    
-    .embed-input {
-        flex-direction: column;
-    }
-    
-    #load-embed {
-        justify-content: center;
-    }
-    
-    .embed-options {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .embed-container {
-        height: 400px;
-    }
-    
-    .quality-options {
-        flex-wrap: wrap;
-    }
-    
-    .result-header {
-        flex-direction: column;
-    }
-    
-    .thumbnail {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-    }
+.embed-controls {padding: 15px;}
+.embed-input {flex-direction: column;}
+#load-embed {justify-content: center;}
+.embed-options {flex-direction: column;gap: 10px;}
+.embed-container {height: 400px;}
+.quality-options {flex-wrap: wrap;}
+.result-header {flex-direction: column;}
+.thumbnail {width: 100%;height: auto;aspect-ratio: 16/9;}
 }
   </style>
 </head>
@@ -637,7 +298,8 @@
                             <p>Download video dari YouTube</p>
                             
                             <div class="youtube-input">
-                    <input type="text" id="youtube-mp4-url" placeholder="Masukkan URL YouTube" />            <button id="download-mp4"><i class="fas fa-download"></i> Download</button>
+                                <input type="text" id="youtube-mp4-url" placeholder="Masukkan URL YouTube" />
+                                <button id="download-mp4"><i class="fas fa-download"></i> Download</button>
                             </div>
                             
                             <div class="quality-options">
