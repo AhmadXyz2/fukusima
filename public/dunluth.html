@@ -11,242 +11,237 @@
       padding: 0;
       box-sizing: border-box;
     }
-   body {
-     font-family: 'Segoe UI', sans-serif;
-     background-color: white;
-     color: #333;
-     line-height: 1.6;
-   }
-   
-   header {
-     background-color: blue;
-     color: white;
-     padding: 20px;
-     text-align: center;
-   }
-   
-   .container {
-     max-width: 800px;
-     margin: 30px auto;
-     padding: 0 20px;
-   }
-   
-   h2 {
-     font-size: 26px;
-     margin-bottom: 10px;
-   }
-   
-   p {
-     font-size: 18px;
-     margin-bottom: 20px;
-   }
-   
-   .card {
-     background-color: #fff;
-     border-radius: 10px;
-     padding: 20px;
-     box-shadow: 0 4px 12px rgba(86, 86, 86, 1);
-     margin-bottom: 20px;
-   }
-   
-   a.button {
-     display: inline-block;
-     background-color: #0057ff;
-     color: white;
-     text-decoration: none;
-     padding: 12px 24px;
-     border-radius: 8px;
-     font-weight: 600;
-     transition: background-color 0.3s ease;
-   }
-   
-   a.button:hover {
-     background-color: #003fbb;
-   }
-   
-   .fukusima {
-     overflow: hidden;
-     white-space: nowrap;
-     background: #0055ff;
-     color: white;
-     padding: 10px 0;
-   }
-   
-   .fukusima-bot {
-     display: inline-block;
-     padding-left: 100%;
-     animation: scroll-left 15s linear infinite;
-   }
-   
-   @keyframes scroll-left {
-     0% { transform: translateX(0); }
-     100% { transform: translateX(-100%); }
-   }
-   
-   /* YouTube Downloader Styles */
-   .input-group {
-     display: flex;
-     gap: 10px;
-     margin-bottom: 15px;
-   }
-   
-   #youtube-url {
-     flex: 1;
-     padding: 12px;
-     border: 2px solid #ddd;
-     border-radius: 8px;
-     font-size: 16px;
-   }
-   
-   #download-btn {
-     padding: 12px 24px;
-     background: #0057ff;
-     color: white;
-     border: none;
-     border-radius: 8px;
-     cursor: pointer;
-     font-weight: 600;
-     transition: background-color 0.3s;
-   }
-   
-   #download-btn:hover {
-     background: #003fbb;
-   }
-   
-   .quality-options {
-     display: flex;
-     gap: 10px;
-     margin-bottom: 15px;
-     flex-wrap: wrap;
-   }
-   
-   .quality-option {
-     position: relative;
-   }
-   
-   .quality-option input {
-     position: absolute;
-     opacity: 0;
-   }
-   
-   .quality-option label {
-     display: inline-block;
-     padding: 8px 16px;
-     background: white;
-     border: 2px solid #ddd;
-     border-radius: 8px;
-     cursor: pointer;
-   }
-   
-   .quality-option input:checked + label {
-     border-color: #0057ff;
-     background: rgba(0, 87, 255, 0.1);
-   }
-   
-   .loading {
-     display: none;
-     text-align: center;
-     padding: 20px;
-   }
-   
-   .loading-spinner {
-     width: 40px;
-     height: 40px;
-     border: 4px solid rgba(0, 87, 255, 0.2);
-     border-top-color: #0057ff;
-     border-radius: 50%;
-     animation: spin 1s linear infinite;
-     margin: 0 auto 10px;
-   }
-   
-   .result-card {
-     display: none;
-   }
-   
-   .video-info {
-     display: flex;
-     gap: 15px;
-     margin-bottom: 15px;
-   }
-   
-   .thumbnail {
-     width: 160px;
-     height: 120px;
-     border-radius: 8px;
-     object-fit: cover;
-   }
-   
-   .video-title {
-     font-weight: bold;
-     margin-bottom: 5px;
-   }
-   
-   .video-author {
-     color: #666;
-     margin-bottom: 5px;
-   }
-   
-   .video-meta {
-     display: flex;
-     gap: 15px;
-     color: #666;
-     font-size: 14px;
-   }
-   
-   .download-section {
-     text-align: center;
-     padding-top: 15px;
-     border-top: 1px solid #eee;
-   }
-   
-   @keyframes spin {
-     0% { transform: rotate(0deg); }
-     100% { transform: rotate(360deg); }
-   }
-   
-   .toast {
-     position: fixed;
-     top: 20px;
-     right: 20px;
-     padding: 12px 20px;
-     background: #333;
-     color: white;
-     border-radius: 8px;
-     display: none;
-   }
-   
-   .toast.show {
-     display: block;
-     animation: fadeInOut 3s;
-   }
-   
-   @keyframes fadeInOut {
-     0% { opacity: 0; }
-     10% { opacity: 1; }
-     90% { opacity: 1; }
-     100% { opacity: 0; }
-   }
-   
-   @media (max-width: 600px) {
-     .input-group {
-       flex-direction: column;
-     }
-     
-     .video-info {
-       flex-direction: column;
-     }
-     
-     .thumbnail {
-       width: 100%;
-       height: auto;
-     }
-   }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: white;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: blue;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(86, 86, 86, 1);
+      margin-bottom: 20px;
+    }
+    a.button {
+      display: inline-block;
+      background-color: #0057ff;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover {
+      background-color: #003fbb;
+    }
+    .fukusima {
+      overflow: hidden;
+      white-space: nowrap;
+      background: #0055ff;
+      color: white;
+      padding: 10px 0;
+    }
+    .fukusima-bot {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    #youtube-url {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    #download-btn {
+      padding: 12px 24px;
+      background: #0057ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    #download-btn:hover {
+      background: #003fbb;
+    }
+    .quality-options {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .quality-option {
+      position: relative;
+    }
+    .quality-option input {
+      position: absolute;
+      opacity: 0;
+    }
+    .quality-option label {
+      display: inline-block;
+      padding: 8px 16px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .quality-option input:checked + label {
+      border-color: #0057ff;
+      background: rgba(0, 87, 255, 0.1);
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 87, 255, 0.2);
+      border-top-color: #0057ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+    .result-card {
+      display: none;
+    }
+    .video-info {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .thumbnail {
+      width: 160px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .video-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .video-author {
+      color: #666;
+      margin-bottom: 5px;
+    }
+    .video-meta {
+      display: flex;
+      gap: 15px;
+      color: #666;
+      font-size: 14px;
+    }
+    .download-section {
+      text-align: center;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      display: none;
+      z-index: 1000;
+    }
+    .toast.show {
+      display: block;
+      animation: fadeInOut 3s;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .audio-control {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #0057ff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .audio-control:hover {
+      background: #f0f0f0;
+    }
+    @media (max-width: 600px) {
+      .input-group {
+        flex-direction: column;
+      }
+      .video-info {
+        flex-direction: column;
+      }
+      .thumbnail {
+        width: 100%;
+        height: auto;
+      }
+      .audio-control {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h2>FukuTube</h2>
     <p>FukuTube Download Video Youtube Anda Sekarang.</p>
+    <button class="audio-control" id="audioControl">
+      <i class="fas fa-microphone"></i>
+    </button>
   </header>
   
   <div class="fukusima">
@@ -319,7 +314,63 @@
     <span id="toast-message">Pesan</span>
   </div>
 
+  <audio id="backgroundMusic" loop>
+    <source src="https://files.catbox.moe/n1jzxf.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
+    const audioControl = document.getElementById('audioControl');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    let isMusicPlaying = false;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('youtube-url').focus();
+      
+      setTimeout(() => {
+        showToast('Klik tombol mikrofon untuk memutar musik');
+      }, 1500);
+      
+      const playMusic = () => {
+        if (!isMusicPlaying) {
+          backgroundMusic.volume = 0.3;
+          backgroundMusic.play()
+            .then(() => {
+              isMusicPlaying = true;
+              audioControl.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+              showToast('Musik diputar');
+            })
+            .catch(error => {
+              console.log('Autoplay prevented:', error);
+            });
+        }
+      };
+      
+      document.body.addEventListener('click', function firstInteraction() {
+        playMusic();
+        document.body.removeEventListener('click', firstInteraction);
+      });
+    });
+    
+    audioControl.addEventListener('click', function() {
+      if (isMusicPlaying) {
+        backgroundMusic.pause();
+        isMusicPlaying = false;
+        audioControl.innerHTML = '<i class="fas fa-microphone"></i>';
+        showToast('Musik dihentikan');
+      } else {
+        backgroundMusic.play()
+          .then(() => {
+            isMusicPlaying = true;
+            audioControl.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+            showToast('Musik diputar');
+          })
+          .catch(error => {
+            console.error('Error playing music:', error);
+            showToast('Gagal memutar musik');
+          });
+      }
+    });
+    
     function showToast(message, duration = 3000) {
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
@@ -388,10 +439,6 @@
           console.error('Error:', error);
           showToast('Terjadi kesalahan');
         });
-    });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('youtube-url').focus();
     });
   </script>
 </body>
