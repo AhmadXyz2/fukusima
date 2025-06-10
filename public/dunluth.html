@@ -318,7 +318,7 @@
     <source src="https://files.catbox.moe/n1jzxf.mp3" type="audio/mpeg">
   </audio>
 
-  <script>
+<script>
     const audioControl = document.getElementById('audioControl');
     const backgroundMusic = document.getElementById('backgroundMusic');
     let isMusicPlaying = false;
@@ -405,7 +405,7 @@
       result.style.display = 'none';
       showToast('Sedang memproses video Anda...');
       
-      const apiUrl = `https://fastrestapis.fasturl.cloud/downup/ytmp4?url=${encodeURIComponent(url)}&quality=${quality}&server=auto`;
+      const apiUrl = `https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(url)}`;
       
       fetch(apiUrl)
         .then(response => {
@@ -417,16 +417,16 @@
         .then(data => {
           loading.style.display = 'none';
           
-          if (data.status === 200) {
-            document.getElementById('thumbnail').src = data.result.metadata.thumbnail;
-            document.getElementById('video-title').textContent = data.result.title;
-            document.getElementById('video-author').textContent = data.result.author.name;
-            document.getElementById('duration-text').textContent = data.result.metadata.duration;
+          if (data.status === 200 && data.result.status) {
+            document.getElementById('thumbnail').src = data.result.metadata.image;
+            document.getElementById('video-title').textContent = data.result.metadata.title;
+            document.getElementById('video-author').textContent = data.result.metadata.author.name;
+            document.getElementById('duration-text').textContent = data.result.metadata.timestamp;
             document.getElementById('views-text').textContent = data.result.metadata.views + ' ditonton';
             
             const downloadLink = document.getElementById('download-link');
-            downloadLink.href = data.result.media;
-            downloadLink.setAttribute('download', `${data.result.title}.mp4`);
+            downloadLink.href = data.result.download.url;
+            downloadLink.setAttribute('download', data.result.download.filename);
             
             result.style.display = 'block';
             showToast('Video siap diunduh!');
