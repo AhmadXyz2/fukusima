@@ -389,6 +389,8 @@
   color: #202123;
   word-break: break-word;
   background-color: #f7f7f8;
+  white-space: pre-wrap;
+  display: block;
 }
 
 .code-header {
@@ -746,7 +748,7 @@
         }, 50);
         document.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', function () {
-                const code = this.closest('.cyber-code').querySelector('code').innerText;
+                const code = this.closest('.cyber-code').querySelector('code').textContent;
                 navigator.clipboard.writeText(code).then(() => {
                     const original = this.innerHTML;
                     this.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
@@ -775,15 +777,14 @@
             .replace(/\n/g, '<br>');
     }
 
-    function escapeHtml(text) {
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
     function sendMessage() {
         const message = chatInput.value.trim();
         if (!message) return;
