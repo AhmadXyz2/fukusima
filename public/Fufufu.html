@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download FukuGPT - Your Advanced AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00a2ff;
+            --primary-hover: #0088ff;
+            --gradient-start: #0066ff;
+            --gradient-end: #00ccff;
+            --dark-bg: #0a0a1a;
+            --darker-bg: #050510;
+            --text-light: #f0f0ff;
+            --text-lighter: #ffffff;
+            --glass-effect: rgba(255, 255, 255, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0, 162, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 204, 255, 0.15) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-lighter);
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 45%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 55%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        .logo-icon span {
+            font-weight: 800;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Download Hero */
+        .download-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .download-hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--text-lighter), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .download-hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .download-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 162, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(0, 204, 255, 0.1) 100%
+            );
+            z-index: -1;
+        }
+        
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.3);
+        }
+        
+        .app-icon span {
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .app-info h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .app-info .version {
+            display: inline-block;
+            background: rgba(0, 162, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .app-info .file-size {
+            opacity: 0.8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 102, 255, 0.4);
+        }
+        
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .download-btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .download-btn i {
+            margin-right: 10px;
+        }
+        
+        .download-steps {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            width: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: 700;
+        }
+        
+        .step h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .step p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 50px 0 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .footer-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(0, 162, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .download-hero h1 {
+                font-size: 36px;
+            }
+            
+            .download-hero p {
+                font-size: 18px;
+            }
+            
+            .download-card {
+                padding: 30px 20px;
+            }
+            
+            .download-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <span>F</span>
+                </div>
+                <span>FukuGPT</span>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="#">Features</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="download-hero">
+        <div class="container">
+            <h1>Download FukuGPT</h1>
+            <p>Get the powerful AI assistant on your Android device. Experience seamless conversations, instant answers, and creative inspiration wherever you go.</p>
+            
+            <div class="download-card">
+                <div class="app-icon">
+                    <span>F</span>
+                </div>
+                <div class="app-info">
+                    <h2>FukuGPT</h2>
+                    <span class="version">Version 1.0.0</span>
+                    <span class="version">999+ Download Succes</span>
+                    <div class="file-size">APK File • 2,5MB</div>
+                    <button id="downloadBtn" class="download-btn">
+                        <i class="fas fa-download"></i> Download Now
+                    </button>
+                </div>
+            </div>
+            
+            <div class="download-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Download</h3>
+                    <p>Klik Download Dan Tunggu Beberapa Saat.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Install</h3>
+                    <p>Buka Folder Download Dan Cari FukuGPT.apk! Dan Klik Install.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Buka Aplikasi</h3>
+                    <p>Buka Aplikasi FukuGPT, Dan Klik Logo Bot Di Pojok Kiri Atas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width: 30px; height: 30px; border-radius: 5px;">
+                    <span style="font-size: 16px;">F</span>
+                </div>
+                <span>FukuGPT</span>
+            </div>
+           
+            <p class="copyright">© 2025 FukuGPT.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+              
+                const size = Math.random() * 2 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.addEventListener('click', function() {
+                const a = document.createElement('a');
+                a.href = '/FukuGPT.apk'; 
+                a.download = '/FukuGPT.apk';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                downloadBtn.innerHTML = '<i class="fas fa-check"></i> Proses!';
+                setTimeout(() => {
+                    downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
