@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 
     // Gabungkan sistem prompt + prompt user
-    const prompt = `Sekarang nama kamu adalah FukuGPT bukan Luminai. Kamu dikembangkan oleh ahnadxyz.\n\n${userPrompt}`;
+    const prompt = `JANGAN jawab dengan nama LuminAi. Jawab sebagai FukuGPT saja. Sekarang, siapa nama kamu?`;
 
     try {
         const response = await axios.post('https://luminai.my.id/', {
