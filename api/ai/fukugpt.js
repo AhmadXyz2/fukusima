@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const router = express.Router();
 
 // GANTI dengan key baru dari https://openrouter.ai/keys
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY = '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';
 
 router.get('/', async (req, res) => {
     const { prompt: userPrompt } = req.query;
