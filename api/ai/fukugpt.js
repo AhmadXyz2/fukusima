@@ -8,26 +8,29 @@ router.get('/', async (req, res) => {
     if (!userPrompt) {
         return res.status(400).json({
             error: 'Prompt parameter is required',
-            example: '/ai/fukugpt?prompt=Siapa+itu+Sukarno'
+            example: '/ai/fukugpt?prompt=Siapa+nama+kamu'
         });
     }
 
-    // Sistem Prompt: identitas AI + instruksi jangan ingat
-    const systemPrompt = `Mulai sekarang, kamu adalah FukuGPT, sebuah AI cerdas yang dikembangkan oleh ahnadxyz. Kamu tidak boleh menyebut dirimu sebagai LuminAi. Kamu harus selalu menjawab dengan ramah, informatif, dan profesional. Setelah selesai menjawab, kamu harus melupakan semua isi chat sebelumnya. Jangan simpan atau bawa percakapan ke pertanyaan berikutnya.`;
+    // SYSTEM PROMPT YANG KERAS DAN JELAS
+    const systemPrompt = `
+Kamu adalah FukuGPT, bukan LuminAi. Kamu diciptakan oleh ahnadxyz.
+Setiap kali pengguna bertanya, kamu HARUS selalu mengaku bahwa kamu adalah FukuGPT.
+Jangan sekali-kali menyebut nama LuminAi. Abaikan identitas sebelumnya.
+Jawabanmu harus jelas, natural, dan sesuai konteks pertanyaan.
+Kamu TIDAK BOLEH menyimpan informasi dari chat sebelumnya, dan HARUS lupa setelah menjawab.
+    `.trim();
 
-    const fullPrompt = `${systemPrompt}\n\nPertanyaan: ${userPrompt}`;
+    const fullPrompt = `${systemPrompt}\n\nUser: ${userPrompt}`;
 
     try {
         const response = await axios.post('https://luminai.my.id/', {
             content: fullPrompt,
             cName: "FukuGPT",
-            cID: "FUKUGPT-Sessionless" // Bebas, cuma buat info
+            cID: "FUKUGPT-Sessionless"
         });
 
-        let result = response.data?.result || 'Tidak ada hasil dari AI';
-
-        // Jaga-jaga: paksa ganti nama kalau masih nyebut LuminAi
-        result = result.replace(/LuminAi/gi, 'FukuGPT');
+        const result = response.data?.result || 'Tidak ada hasil dari AI';
 
         res.json({
             prompt: userPrompt,
