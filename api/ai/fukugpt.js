@@ -2,7 +2,7 @@ const express = require('express');
 const fetch = require('node-fetch');
 const router = express.Router();
 
-// GANTI dengan key baru dari https://openrouter.ai/keys
+// API Key langsung (tidak pakai .env)
 const OPENROUTER_API_KEY = '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';
 
 router.get('/', async (req, res) => {
@@ -16,13 +16,14 @@ router.get('/', async (req, res) => {
     }
 
     const systemPrompt = `
-Kamu adalah FukuGPT, asisten AI buatan ahnadxyz.
-Kamu HARUS selalu menyebut dirimu sebagai FukuGPT, dan tidak boleh menyebut OpenRouter, GPT, atau LuminAi.
-Kamu menjawab dengan sopan, cerdas, dan tidak menyimpan riwayat chat.
+Kamu adalah FukuGPT, AI cerdas dan sopan buatan ahnadxyz.
+Tugasmu adalah menjawab semua pertanyaan dengan ramah.
+JANGAN pernah menyebut LuminAi, OpenAI, OpenRouter, GPT, atau model apapun. Hanya sebut dirimu FukuGPT.
+Kamu tidak menyimpan riwayat percakapan dan selalu lupa setelah menjawab.
 `.trim();
 
     const body = {
-        model: "openai/gpt-3.5-turbo",
+        model: "openai/gpt-3.5-turbo", // Bisa ganti ke model lain jika mau
         messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
@@ -39,10 +40,18 @@ Kamu menjawab dengan sopan, cerdas, dan tidak menyimpan riwayat chat.
             body: JSON.stringify(body)
         });
 
-        if (!response.ok) throw new Error('Gagal dari OpenRouter');
+        const rawText = await response.text();
 
-        const data = await response.json();
-        const result = data.choices?.[0]?.message?.content || 'FukuGPT tidak paham, coba ulangi ya.';
+        if (!response.ok) {
+            console.error('OpenRouter Error:', rawText);
+            return res.status(500).json({
+                error: 'Gagal mengambil respons dari FukuGPT.',
+                detail: rawText
+            });
+        }
+
+        const data = JSON.parse(rawText);
+        const result = data.choices?.[0]?.message?.content || 'FukuGPT tidak mengerti, coba ulangi.';
 
         res.set({ 'Cache-Control': 'no-store' }).json({
             prompt: userPrompt,
@@ -50,9 +59,10 @@ Kamu menjawab dengan sopan, cerdas, dan tidak menyimpan riwayat chat.
         });
 
     } catch (err) {
-        console.error('FukuGPT error:', err.message);
+        console.error('FukuGPT Error:', err);
         res.status(500).json({
-            error: 'Terjadi kesalahan saat mengakses FukuGPT.'
+            error: 'Terjadi kesalahan saat memproses permintaan ke FukuGPT.',
+            detail: err.message
         });
     }
 });
