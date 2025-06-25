@@ -2,8 +2,8 @@ const express = require('express');
 const fetch = require('node-fetch');
 const router = express.Router();
 
-const apiKey = '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'; // Ganti dgn key kamu
-const referer = 'https://fukugpt.my.id'; // Ganti dgn domain kamu
+const apiKey = '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'; // Ganti dgn key kamu
+const referer = 'https://fukushima-offc.biz.id'; // Ganti dgn domain kamu
 const title = 'FukuGPT'; // Bebas
 
 router.get('/', async (req, res) => {
