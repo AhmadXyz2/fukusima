@@ -4,6 +4,16 @@
   "version": "1.0.0",
   "endpoints": [
     {
+  "name": "Fukushima GPT",
+  "desc": "Send a prompt and get a response from Luminai AI",
+  "path": "/ai/fukugpt?prompt=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "prompt": "Your question or command for the AI"
+  }
+},
+    {
       "name": "To Base64",
       "desc": "Convert text to Base64",
       "path": "/tools/tobase64?text=",
