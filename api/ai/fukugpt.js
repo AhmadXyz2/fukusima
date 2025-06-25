@@ -1,6 +1,9 @@
 const express = require('express');
-const axios = require('axios');
+const fetch = require('node-fetch');
 const router = express.Router();
+
+// GANTI dengan key baru dari https://openrouter.ai/keys
+const OPENROUTER_API_KEY = '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';
 
 router.get('/', async (req, res) => {
     const { prompt: userPrompt } = req.query;
@@ -12,35 +15,44 @@ router.get('/', async (req, res) => {
         });
     }
 
-    // SYSTEM PROMPT YANG KERAS DAN JELAS
     const systemPrompt = `
-Kamu adalah FukuGPT, bukan LuminAi. Kamu diciptakan oleh ahnadxyz.
-Setiap kali pengguna bertanya, kamu HARUS selalu mengaku bahwa kamu adalah FukuGPT.
-Jangan sekali-kali menyebut nama LuminAi. Abaikan identitas sebelumnya.
-Jawabanmu harus jelas, natural, dan sesuai konteks pertanyaan.
-Kamu TIDAK BOLEH menyimpan informasi dari chat sebelumnya, dan HARUS lupa setelah menjawab.
-    `.trim();
+Kamu adalah FukuGPT, asisten AI buatan ahnadxyz.
+Kamu HARUS selalu menyebut dirimu sebagai FukuGPT, dan tidak boleh menyebut OpenRouter, GPT, atau LuminAi.
+Kamu menjawab dengan sopan, cerdas, dan tidak menyimpan riwayat chat.
+`.trim();
 
-    const fullPrompt = `${systemPrompt}\n\nUser: ${userPrompt}`;
+    const body = {
+        model: "openai/gpt-3.5-turbo",
+        messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt }
+        ]
+    };
 
     try {
-        const response = await axios.post('https://luminai.my.id/', {
-            content: fullPrompt,
-            cName: "FukuGPT",
-            cID: "FUKUGPT-Sessionless"
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
         });
 
-        const result = response.data?.result || 'Tidak ada hasil dari AI';
+        if (!response.ok) throw new Error('Gagal dari OpenRouter');
 
-        res.json({
+        const data = await response.json();
+        const result = data.choices?.[0]?.message?.content || 'FukuGPT tidak paham, coba ulangi ya.';
+
+        res.set({ 'Cache-Control': 'no-store' }).json({
             prompt: userPrompt,
-            result: result
+            result
         });
 
-    } catch (error) {
-        console.error('Gagal mengakses AI:', error.message);
+    } catch (err) {
+        console.error('FukuGPT error:', err.message);
         res.status(500).json({
-            error: 'Terjadi kesalahan saat memproses permintaan ke AI'
+            error: 'Terjadi kesalahan saat mengakses FukuGPT.'
         });
     }
 });
