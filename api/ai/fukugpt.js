@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'moonshotai/kimi-dev-72b:free',
+        model: 'openai/gpt-3.5-turbo',
         messages: [
           {
             role: 'system',
