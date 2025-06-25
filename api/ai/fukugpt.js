@@ -3,14 +3,17 @@ const axios = require('axios');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const { prompt } = req.query;
+    const { prompt: userPrompt } = req.query;
 
-    if (!prompt) {
+    if (!userPrompt) {
         return res.status(400).json({
             error: 'Prompt parameter is required',
             example: '/ai/fukugpt?prompt=Siapa+itu+Sukarno'
         });
     }
+
+    // Gabungkan sistem prompt + prompt user
+    const prompt = `Sekarang nama kamu adalah FukuGPT yang dikembangkan oleh ahnadxyz.\n\n${userPrompt}`;
 
     try {
         const response = await axios.post('https://luminai.my.id/', {
@@ -22,7 +25,7 @@ router.get('/', async (req, res) => {
         const result = response.data?.result || 'Tidak ada hasil dari AI';
 
         res.json({
-            prompt: prompt,
+            prompt: userPrompt,
             result: result
         });
 
