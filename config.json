@@ -3,7 +3,7 @@
   "description": "A collection of useful API endpoints",
   "version": "1.0.0",
   "endpoints": [
-    {
+{
   "name": "FUKUGPT",
   "desc": "Send a message and get a response from FukuGPT",
   "path": "/ai/fukugptv2?message=",
