@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
   if (!prompt) {
     return res.status(400).json({
       error: 'Parameter "prompt" wajib diisi.',
-      example: '/api/fukugpt?prompt=Apa+itu+AI'
+      example: '/api/fukugptv1?prompt=Apa+itu+AI'
     });
   }
 

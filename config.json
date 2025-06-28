@@ -4,9 +4,20 @@
   "version": "1.0.0",
   "endpoints": [
     {
+  "name": "FUKUGPT",
+  "desc": "Send a message and get a response from FukuGPT",
+  "path": "/ai/fukugptv2?message=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "message": "Your message to FukuGPT",
+    "userID": "Optional user identifier (for personalization)"
+  }
+},
+    {
   "name": "Fukushima GPT",
   "desc": "Send a prompt and get a response from Luminai AI",
-  "path": "/ai/fukugpt?prompt=",
+  "path": "/ai/fukugptv1?prompt=",
   "status": "ready",
   "creator": "fukushima",
   "params": {
