@@ -1,40 +1,18 @@
 {
-  "name": "vercel-rest-api",
+  "name": "super-advanced-api",
   "version": "1.0.0",
-  "description": "Awesome REST API with Base64 conversion and Facebook downloader",
+  "description": "The most advanced API website in the universe",
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js",
-    "dev": "nodemon api/index.js",
-    "test": "echo \"Error: no tests specified\" && exit 1"
+    "dev": "nodemon api/index.js"
   },
-  "keywords": [
-    "rest-api",
-    "vercel",
-    "base64",
-    "facebook-downloader"
-  ],
-  "author": "Your Name",
-  "license": "MIT",
   "dependencies": {
-        "axios": "^1.6.8",
-    "body-parser": "^1.20.3",
-    "cheerio": "^1.0.0",
+    "express": "^4.18.2",
     "cors": "^2.8.5",
-    "chalk": "^4.1.2",
-    "express": "^4.19.2",
-    "fs": "^0.0.1-security",
-    "https": "^1.0.0",
-    "node-fetch": "^2.6.1",
-    "yt-search": "^2.12.1",
-    "@sparticuz/chromium": "^119.0.1",
-    "puppeteer-core": "^19.7.5"
+    "body-parser": "^1.20.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
-    "vercel": "^32.2.1"
-  },
-  "engines": {
-    "node": ">=16.x"
+    "nodemon": "^3.0.2"
   }
 }

@@ -1,25 +1,39 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    const { text } = req.query;
-    
-    if (!text) {
-        return res.status(400).json({
-            error: 'Text parameter is required',
-            example: '/tools/tobase64?text=Hello+World'
+router.post('/', (req, res) => {
+    try {
+        const { text } = req.body;
+        
+        if (!text) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'Text is required',
+                data: null
+            });
+        }
+
+        const encoded = Buffer.from(text).toString('base64');
+        
+        res.json({
+            status: 'success',
+            message: 'Text successfully encoded to Base64',
+            data: {
+                original: text,
+                encoded: encoded,
+                length: text.length,
+                encodedLength: encoded.length,
+                timestamp: new Date().toISOString()
+            }
+        });
+    } catch (error) {
+        console.error('Error in toBase64:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Internal server error',
+            data: null
         });
     }
-    
-    // Convert text to Base64
-    const base64 = Buffer.from(text).toString('base64');
-    
-    res.json({
-        original_text: text,
-        base64: base64,
-        length: text.length,
-        encoded_length: base64.length
-    });
 });
 
 module.exports = router;
