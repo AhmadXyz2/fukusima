@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAPI - Clean REST API</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nexus<span>API</span></h1>
+            <p class="subtitle">Clean & Minimalist API Services</p>
+        </header>
+
+        <main>
+            <section class="api-section">
+                <h2>ToBase64 API</h2>
+                <div class="api-card">
+                    <div class="endpoint">
+                        <span class="method get">POST</span>
+                        <code>/api/v1/tobase64</code>
+                    </div>
+                    
+                    <div class="try-it">
+                        <h3>Try it out</h3>
+                        <textarea id="inputText" placeholder="Enter text to convert..."></textarea>
+                        <button id="convertBtn">Convert to Base64</button>
+                        <div class="result-container">
+                            <label for="result">Result:</label>
+                            <textarea id="result" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2023 NexusAPI | Built with ❤️ for developers</p>
+        </footer>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
