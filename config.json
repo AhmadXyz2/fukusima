@@ -1,0 +1,82 @@
+{
+  "name": "FukuShima APIs",
+  "description": "A collection of useful API endpoints",
+  "version": "1.0.0",
+  "endpoints": [
+{
+  "name": "FUKUGPT",
+  "desc": "Send a message and get a response from FukuGPT",
+  "path": "/ai/fukugptv2?message=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "message": "Your message to FukuGPT",
+    "userID": "Optional user identifier (for personalization)"
+  }
+},
+    {
+  "name": "Fukushima GPT",
+  "desc": "Send a prompt and get a response from Luminai AI",
+  "path": "/ai/fukugptv1?prompt=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "prompt": "Your question or command for the AI"
+  }
+},    
+    {
+      "name": "To Base64",
+      "desc": "Convert text to Base64",
+      "path": "/tools/tobase64?text=",
+      "status": "ready",
+      "params": {
+        "text": "Text to convert"
+      }
+    },
+{
+  "name": "Pinterest Image Search",
+  "desc": "Search and retrieve a random image from Pinterest based on a keyword",
+  "path": "/search/pinterest?q=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "q": "Keyword to search images"
+  }
+},
+{
+  "name": "Emoji Mix Image",
+  "desc": "Generate and retrieve a combined emoji image from two emoji characters",
+  "path": "/search/emojimix?emoji1=&emoji2=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "emoji1": "First emoji character (URL encoded if needed)",
+    "emoji2": "Second emoji character (URL encoded if needed)"
+  },
+  "response": {
+    "content-type": "image/png",
+    "description": "Returns a PNG image that is a mix of the two provided emojis"
+  }
+},
+{
+  "name": "YouTube MP3 Search",
+  "desc": "Search YouTube for videos and retrieve metadata (without download links) based on a keyword",
+  "path": "/search/yts?q=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "q": "Keyword to search YouTube videos"
+  }
+},
+{
+  "name": "YouTube MP3 Download",
+  "desc": "Download MP3 audio from YouTube video URL with available quality and metadata",
+  "path": "/download/ytmp3?url=",
+  "status": "ready",
+  "creator": "fukushima",
+  "params": {
+    "url": "YouTube video URL to download MP3"
+  }
+}
+  ]
+}
