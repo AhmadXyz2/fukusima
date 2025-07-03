@@ -20,7 +20,7 @@ app.get('/api/info', (req, res) => {
 
 // Import other API routes
 app.use('/tools/tobase64', require('./tools/tobase64'));
-app.use('/ai/fukugptv1', require('./ai/fukugptv1'));
+app.use('/ai/fukugptnew', require('./ai/fukugptv1'));
 app.use('/ai/fukugptv2', require('./ai/fukugptv2'));
 app.use('/search/yts', require('./search/yts'));
 app.use('/search/pinterest', require('./search/pinterest'));
